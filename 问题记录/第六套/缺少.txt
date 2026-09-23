@@ -1,0 +1,8 @@
+【没有U盘资料/test.sql】
+子任务1-8 数据库运维查询与优化
+现有三张表AD_Accounts（用户表），AD_Roles（角色表），AD_AccountsRole(用户角色关系表)，请根据任务要求完成数据库维护。
+任务要求：
+?	在服务器SQLSERVER上，利用U盘“U盘资料/test.sql”还原三张数据表。
+?	统计三张表的记录数，查询结果要求如图。
+ 
+?	删除AD_AccountsRole表中不属于AD_Accounts用户的关系数据。重新查询三张表的记录数。S
