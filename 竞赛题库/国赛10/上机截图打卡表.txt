@@ -1,0 +1,29 @@
+【第10套 · 上机截图打卡表】（模块一 1-6~1-9）
+================================================
+1-6 Windows（cmd 命令行）：
+□ A-15-1.jpg   services.msc 打开本地服务界面（命令+结果）
+□ A-15-2.jpg   secpol.msc 打开本地安全策略界面
+□ A-15-3.jpg   osk 打开屏幕键盘界面
+
+1-7 Ubuntu（虚拟机，ssh 登录）：
+□ A-16-1.jpg   服务器 ssh 登录 Ubuntu 成功（红框圈出 ssh 命令及成功结果）
+□ A-16-2.jpg   dpkg -l 查询已安装包信息（红框圈出命令）
+□ A-16-3.jpg   iptables -A INPUT -p tcp --dport 80 -i eth0 -j ACCEPT（红框圈出命令）
+□ A-16-4.jpg   lsusb -v 查询 USB 设备详细描述（红框圈出命令）
+   ※ 若 iptables 需持久化：sudo apt install iptables-persistent → netfilter-persistent save
+
+1-8 SQL Server（SSMS，TestDataBase）：
+■ ProStaticOrderInfo.sql   存储过程：每日商品销售数量/金额，仅保留最新记录写入
+   T_OrderInfoStatic（已生成）
+□ A-17-1.jpg   自动维护计划配置界面：作业 Maintain_OrderStatic、
+   步骤 T-SQL 执行 EXEC ProStaticOrderInfo、计划每 5 分钟执行
+□ A-17-2.jpg   “执行 T-SQL 语句”任务选择界面
+   ※ 若 SQL Server 代理未启用：右键“SQL Server 代理”→“启动”
+
+1-9 设备维护（双 WAN 口打印机永久路由，管理员 cmd）：
+□ A-18-1.jpg   route print 查询打印机(192.168.14.241) IP 路由指向 172.26.103.x
+   （若存在错误路由先 route delete 192.168.14.241）
+□ A-18-2.jpg   route -p add 192.168.14.241 mask 255.255.255.255 172.26.103.254
+   后 route print -4 显示已添加的 IPV4 永久路由
+
+◇ 1-10 职业素养：现场执行（卫生/整理/还原）

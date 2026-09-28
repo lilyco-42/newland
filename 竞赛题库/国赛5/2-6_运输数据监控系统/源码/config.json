@@ -1,0 +1,18 @@
+{
+  "server_url": "https://api.nlecloud.com",
+  "username": "13329262958",
+  "password": "qwe123456789",
+  "mode": "cloud",
+  "device_ids": [],
+  "sensor_tags": {
+    "temp": "m_louverbox_temp",
+    "hum": "m_louverbox_hum",
+    "light": "m_light"
+  },
+  "ctrl_tags": {
+    "fan": "m_fan",
+    "lamp": "m_lamp"
+  },
+  "interval_second": 3,
+  "light_threshold": 20.0
+}

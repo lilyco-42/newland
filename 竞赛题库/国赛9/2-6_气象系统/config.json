@@ -1,0 +1,6 @@
+{
+  "source": "tcp",
+  "tcp": {"host": "192.168.1.10", "port": 8000},
+  "serial": {"port": "", "baud": 115200, "enabled": false},
+  "interval_sec": 10
+}

@@ -1,0 +1,41 @@
+套7 模块一 操作步骤 1-6至1-9
+================================
+日期：____
+
+一、1-6 Windows防火墙配置
+  步骤：
+  1. 打开"高级安全Windows防火墙"
+  2. 创建入站规则：新建规则 → 端口 → TCP → 特定端口(如3389) → 阻止连接
+  3. 创建出站规则：新建规则 → 程序 → 选择程序路径 → 阻止连接
+  4. 配置预定义规则：文件和打印机共享、远程桌面
+  5. 创建自定义规则：限制特定IP访问
+  6. 导出/导入防火墙策略
+  截图：A-16-1.jpg至A-16-3.jpg
+
+二、1-7 Ubuntu系统维护
+  步骤：
+  1. sudo apt-get update && sudo apt-get upgrade
+  2. sudo systemctl enable/start nginx
+  3. sudo ufw allow 22/tcp && sudo ufw enable
+  4. sudo journalctl -u nginx
+  截图：A-16-4.jpg至A-16-6.jpg
+
+三、1-8 SQL Server数据库运维
+  步骤：
+  1. 打开SQL Server Management Studio
+  2. 创建维护计划：管理 → 维护计划 → 新建
+  3. 配置数据库备份任务
+  4. 配置索引重建任务
+  5. 配置数据库收缩任务
+  6. 使用SQL Server Profiler跟踪查询
+  截图：A-16-7.jpg
+
+四、1-9 NB-IoT/ZigBee/LoRa硬件维护
+  步骤：
+  1. 连接BC26 NB-IoT模组
+  2. 通过串口发送AT指令配置APN
+  3. 配置MQTT连接参数
+  4. 测试数据上报
+  5. 连接ZigBee/LoRa模块
+  6. 验证传感器数据采集
+  截图：A-17-1.jpg至A-17-2.jpg

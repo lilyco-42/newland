@@ -1,0 +1,16 @@
+【第4套 · D:\提交资料\模块二 目录规划】（U盘同结构拷贝）
+========================================================
+提交资料\模块二\
+├─ 题2\                  ZigBee A/B 风扇控制完整工程代码
+├─ 题3\                  NB-IoT 计数器系统完整工程代码（Key2/Key3/Key4+Flash保存）
+├─ 题4\                  行人监控系统源码.rar（Android）
+├─ 题5\                  商品查询系统源码（Android）
+├─ 题6\                  智能交通违章系统.exe ＋ traffic_violation.py + config.json
+└─ 题7\                  大厅环境系统（Python 源码 hall_env.py + config.json）
+
+说明：
+  · exe 打包命令：
+    pyinstaller -F -w -n 智能交通违章系统 traffic_violation.py
+    pyinstaller -F -w -n 大厅环境系统 hall_env.py
+  · 中距离一体机（RFID 车牌）数据经串口服务器 TCP 模式读取（config 中 tcp.host/port 按实际改）
+  · 题4/题5 Android 需自行编译发布（行人监控走云服务系统；商品查询用 UHF/二维码+小票打印）

@@ -1,0 +1,65 @@
+﻿To honour the JVM settings for this build a new JVM will be forked. Please consider using the daemon: https://docs.gradle.org/4.6/userguide/gradle_daemon.html.
+Daemon will be stopped at the end of the build stopping after processing
+gradlew.bat : 
+所在位置 行:1 字符: 262
++ ... 码\2-5_环境监测系统"; & .\gradlew.bat assembleDebug --no-daemon 2>&1 | Out-F ...
++                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+FAILURE: 
+Build failed with an exception.
+
+
+
+
+* Where:
+
+
+Build file 'D:\Դ��\2-5_�������ϵͳ\app\build.gradle' line: 1
+
+
+
+
+* What went wrong:
+
+
+A problem occurred evaluating project ':app'.
+
+
+> 
+Failed to apply plugin [id 'com.android.application']
+
+
+   
+> 
+Your project path contains non-ASCII characters. This will most likely cause the build to fail on Windows. Please move 
+your project to a different directory. See http://b.android.com/95744 for details. This warning can be disabled by addi
+ng the line 'android.overridePathCheck=true' to gradle.properties file in the project directory.
+
+
+* Try:
+
+
+Run with 
+--stacktrace
+ option to get the stack trace. Run with 
+--info
+ or 
+--debug
+ option to get more log output. Run with 
+--scan
+ to get full insights.
+
+
+
+
+* Get more help at https://help.gradle.org
+
+
+
+
+BUILD FAILED
+ in 2s
+
+

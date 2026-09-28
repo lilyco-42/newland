@@ -1,0 +1,3 @@
+# 大厅环境系统 依赖
+requests
+Pillow

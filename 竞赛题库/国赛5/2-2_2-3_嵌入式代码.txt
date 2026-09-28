@@ -1,0 +1,308 @@
+========================================
+套5 嵌入式代码 - 森林火灾监控 + 物流运输监控
+========================================
+
+========================================
+2-2 ZigBee协调器代码 (CC2530 C51) - 烟雾传感器汇聚
+========================================
+// ZigBee协调器 - 汇聚烟雾/温度传感器数据
+// 适用芯片: CC2530
+// 编译器: IAR Embedded Workbench for 8051
+
+#include <ioCC2530.h>
+#include <string.h>
+#include <stdio.h>
+
+#define FRAME_HEAD 0xAA
+#define FRAME_TAIL 0x55
+#define CMD_SMOKE_DATA 0x01
+#define CMD_TEMP_DATA 0x02
+#define CMD_ALERT 0x03
+
+typedef struct {
+    uint8_t node_id;
+    uint8_t smoke_value;
+    uint16_t temperature;
+    uint16_t battery;
+    uint8_t status;  // 0:正常 1:预警 2:危险
+} SmokeSensorData_t;
+
+static SmokeSensorData_t g_sensorData;
+static uint8_t g_nodeCount = 0;
+
+// 系统时钟初始化
+void SystemClockInit(void) {
+    CLKCONCMD &= ~0x40;
+    while(CLKCONCMD & 0x40);
+    CLKCONCMD &= ~0x07;
+    CLKCONCMD |= 0x02;
+    while((CLKCONSTA & 0x07) != 0x02);
+}
+
+// UART0初始化
+void UART0Init(void) {
+    PERCFG |= 0x00;
+    P0SEL |= 0x0C;
+    U0CSR |= 0x40;
+    U0GCR = 11;
+    U0BAUD = 216;
+}
+
+// 串口发送
+void UART0SendByte(uint8_t dat) {
+    U0DBUF = dat;
+    while(!UTX0IF);
+    UTX0IF = 0;
+}
+
+void UART0SendString(uint8_t *str, uint8_t len) {
+    uint8_t i;
+    for(i = 0; i < len; i++) {
+        UART0SendByte(str[i]);
+    }
+}
+
+// 发送协议帧到上位机
+void SendToHost(uint8_t cmd, uint8_t *data, uint8_t len) {
+    uint8_t i;
+    UART0SendByte(FRAME_HEAD);
+    UART0SendByte(cmd);
+    UART0SendByte(len);
+    for(i = 0; i < len; i++) {
+        UART0SendByte(data[i]);
+    }
+    UART0SendByte(FRAME_TAIL);
+}
+
+// ZigBee初始化
+void ZigBeeInit(void) {
+    RFIRQF0 &= ~0x40;
+    RFST = 0xE9;
+    RFST = 0xE8;
+    RFIRQF0 &= ~0x40;
+    RFIRQF1 &= ~0x40;
+    S1CON &= ~0x03;
+    S1CON |= 0x01;
+}
+
+// 处理烟雾传感器数据
+void ProcessSmokeData(uint8_t *data, uint8_t len) {
+    if(len >= sizeof(SmokeSensorData_t)) {
+        memcpy(&g_sensorData, data, sizeof(SmokeSensorData_t));
+        // 判断危险等级
+        if(g_sensorData.smoke_value > 80 || g_sensorData.temperature > 600) {
+            g_sensorData.status = 2;  // 危险
+        } else if(g_sensorData.smoke_value > 50 || g_sensorData.temperature > 450) {
+            g_sensorData.status = 1;  // 预警
+        } else {
+            g_sensorData.status = 0;  // 正常
+        }
+        // 上传到上位机
+        SendToHost(CMD_SMOKE_DATA, (uint8_t*)&g_sensorData, sizeof(SmokeSensorData_t));
+        g_nodeCount++;
+    }
+}
+
+// 主函数
+void main(void) {
+    SystemClockInit();
+    UART0Init();
+    ZigBeeInit();
+
+    while(1) {
+        // 接收ZigBee数据并处理
+        // 定期发送心跳
+        // 等待中断
+    }
+}
+
+
+========================================
+2-3 LoRa GPS定位节点代码
+========================================
+// LoRa GPS定位节点 - 采集GPS位置并通过LoRa发送
+// 适用芯片: STM32F103C8T6 + SX1278 + NEO-6M GPS
+// 编译器: Keil MDK-ARM
+
+#include "stm32f10x.h"
+#include "lora.h"
+#include "gps.h"
+#include "delay.h"
+#include "usart.h"
+#include <string.h>
+#include <stdio.h>
+
+#define LORA_FREQUENCY 433000000
+#define LORA_BANDWIDTH 125000
+#define LORA_SPREADING_FACTOR 7
+#define NODE_ID 0x10
+
+// GPS数据包
+typedef struct {
+    uint8_t node_id;
+    uint8_t valid;
+    float latitude;
+    float longitude;
+    float altitude;
+    uint8_t satellites;
+    uint16_t battery_mv;
+    uint8_t checksum;
+} GPSPacket_t;
+
+static GPSPacket_t g_gpsPacket;
+static uint8_t g_gpsBuffer[128];
+
+// RCC时钟配置
+void RCC_Configuration(void) {
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB |
+                           RCC_APB2Periph_USART1 | RCC_APB2Periph_SPI1, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+}
+
+// GPIO初始化
+void GPIO_Configuration(void) {
+    GPIO_InitTypeDef GPIO_InitStructure;
+    // LED
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+}
+
+// GPS UART初始化 (USART2)
+void GPS_USART_Init(void) {
+    USART_InitTypeDef USART_InitStructure;
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+    USART_InitStructure.USART_BaudRate = 9600;
+    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+    USART_InitStructure.USART_StopBits = USART_StopBits_1;
+    USART_InitStructure.USART_Parity = USART_Parity_No;
+    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+    USART_Init(USART2, &USART_InitStructure);
+    USART_Cmd(USART2, ENABLE);
+}
+
+// 解析NMEA GPGGA语句
+uint8_t ParseGPGGA(char *nmea, float *lat, float *lon, float *alt, uint8_t *sats) {
+    char *token;
+    uint8_t field = 0;
+    char lat_str[16] = {0};
+    char lon_str[16] = {0};
+
+    token = strtok(nmea, ",");
+    while(token != NULL) {
+        switch(field) {
+            case 2: strncpy(lat_str, token, 15); break;
+            case 3: break; // N/S
+            case 4: strncpy(lon_str, token, 15); break;
+            case 6: break; // E/W
+            case 7: *sats = atoi(token); break;
+            case 9: *alt = atof(token); break;
+        }
+        field++;
+        token = strtok(NULL, ",");
+    }
+
+    if(strlen(lat_str) > 0 && strlen(lon_str) > 0) {
+        *lat = atof(lat_str) / 100.0;
+        *lon = atof(lon_str) / 100.0;
+        return 1;
+    }
+    return 0;
+}
+
+// 读取电池电压
+uint16_t GetBatteryVoltage(void) {
+    ADC_InitTypeDef ADC_InitStructure;
+    uint16_t val;
+    ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
+    ADC_InitStructure.ADC_ScanConvMode = DISABLE;
+    ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
+    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+    ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+    ADC_InitStructure.ADC_NbrOfChannel = 1;
+    ADC_Init(ADC1, &ADC_InitStructure);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_16, 1, ADC_SampleTime_239Cycles5);
+    ADC_TempSensorVrefintCmd(ENABLE);
+    ADC_Cmd(ADC1, ENABLE);
+    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+    while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC));
+    val = ADC_GetConversionValue(ADC1);
+    ADC_Cmd(ADC1, DISABLE);
+    return (uint16_t)((val * 3300 * 2) / 4096);
+}
+
+// LoRa初始化
+void LoRa_Init(void) {
+    LORA_Reset();
+    LORA_SetFrequency(LORA_FREQUENCY);
+    LORA_SetBandwidth(LORA_BANDWIDTH);
+    LORA_SetSpreadingFactor(LORA_SPREADING_FACTOR);
+    LORA_SetTxPower(17);
+    LORA_SetMode(MODE_STANDBY);
+}
+
+// LoRa发送
+void LoRa_SendPacket(uint8_t *data, uint8_t len) {
+    LORA_SetMode(MODE_STANDBY);
+    LORA_WriteFIFO(data, len);
+    LORA_SetMode(MODE_TX);
+    while(!LORA_GetIrqFlag());
+    LORA_ClearIrqFlag();
+    LORA_SetMode(MODE_STANDBY);
+}
+
+// 主函数
+int main(void) {
+    float lat, lon, alt;
+    uint8_t sats;
+
+    SystemInit();
+    Delay_Init();
+    RCC_Configuration();
+    GPIO_Configuration();
+    GPS_USART_Init();
+    USART1_Init(115200);
+    LoRa_Init();
+
+    printf("LoRa GPS Node Started\r\n");
+
+    while(1) {
+        // 读取GPS数据
+        if(ReadGPSData(g_gpsBuffer, sizeof(g_gpsBuffer))) {
+            if(ParseGPGGA((char*)g_gpsBuffer, &lat, &lon, &alt, &sats)) {
+                // 组装数据包
+                g_gpsPacket.node_id = NODE_ID;
+                g_gpsPacket.valid = 1;
+                g_gpsPacket.latitude = lat;
+                g_gpsPacket.longitude = lon;
+                g_gpsPacket.altitude = alt;
+                g_gpsPacket.satellites = sats;
+                g_gpsPacket.battery_mv = GetBatteryVoltage();
+                g_gpsPacket.checksum = g_gpsPacket.node_id + g_gpsPacket.satellites +
+                                       (uint8_t)(g_gpsPacket.battery_mv & 0xFF);
+
+                // 发送
+                LoRa_SendPacket((uint8_t*)&g_gpsPacket, sizeof(GPSPacket_t));
+
+                // LED闪烁
+                GPIO_SetBits(GPIOC, GPIO_Pin_13);
+                Delay_ms(100);
+                GPIO_ResetBits(GPIOC, GPIO_Pin_13);
+
+                printf("GPS: Lat=%.4f, Lon=%.4f, Alt=%.1f, Sats=%d\r\n",
+                       lat, lon, alt, sats);
+            }
+        }
+        Delay_ms(5000);
+    }
+}

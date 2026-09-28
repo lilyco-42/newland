@@ -1,0 +1,66 @@
+【第4套·模块一 1-6 至 1-9】操作步骤与截图清单
+================================================
+
+■ 1-6 Windows系统维护（cmd 操作）
+  A-14-1.jpg   cmd 执行 systeminfo，截图体现命令行语句（含 初始安装日期 / 系统启动时间）
+  A-14-2.jpg   cmd 执行 net share（查看系统当前开启了哪些共享服务）
+  A-14-3.jpg   cmd 执行 net share IPC$（开启 IPC$ 共享，截图体现命令和结果）
+  A-14-4.jpg   cmd 执行 net share C$ /delete（删除 C: 共享，截图体现命令和结果）
+  A-14-5.txt   答案为：shutdown -s -t 3600（一小时后自动关闭本地计算机）【已生成】
+  A-14-6.jpg   执行 shutdown -s -t 3600 后系统提示“将在一小时后关闭”的提示窗口截图
+
+■ 1-7 Ubuntu系统维护（虚拟机，默认账号 iotuser/iotuser）
+  ① 开通 root SSH：sudo nano /etc/ssh/sshd_config → PermitRootLogin yes → sudo systemctl restart sshd
+  ② 目录创建：cd /home/iotuser
+     mkdir aaa bbb
+     touch aaa/a.txt
+     mkdir bbb/ccc
+     touch bbb/b.txt bbb/ccc/c.txt
+  ③ 压缩：tar -zcvf xxx.tar.gz aaa bbb
+  ④ 权限：chmod -R 777 bbb
+  ⑤ 密码有效期：sudo nano /etc/login.defs
+     PASS_MAX_DAYS 30（密码最长使用天数 30）
+     PASS_MIN_DAYS 1 （两次修改最小间隔 1 天）
+     PASS_WARN_AGE 3 （过期前警告 3 天）
+  ⑥ 密码复杂度：sudo nano /etc/pam.d/common-password → 在 sha512 后加 minlen=6 ucredit=1
+     sudo nano /etc/pam.d/common-auth → 第二行添加
+     auth required pam_tally2.so deny=3 unlock_time=180 even_deny_root root_unlock_time=180
+
+  截图：
+  A-15-1.jpg  Xshell 以 root 登录 Ubuntu 的界面（体现登录端 IP）
+  A-15-2.jpg  查询网卡 eth0 工作状态（ip addr show eth0 或 ifconfig eth0），体现查询命令
+  A-15-3.jpg  合并压缩 aaa 和 bbb 命令（tar -zcvf xxx.tar.gz aaa bbb）执行结果
+  A-15-4.jpg  将 bbb 文件夹权限设置为每个人都有读/写/执行权限（chmod -R 777 bbb）的截图
+  A-15-5.jpg  密码有效性设置界面（/etc/login.defs 中 PASS_MAX_DAYS/PASS_MIN_DAYS/PASS_WARN_AGE）
+  A-15-6.jpg  密码复杂度设置界面（common-password 的 minlen/ucredit 以及 common-auth 的锁定策略）
+
+■ 1-8 数据库运维查询与优化（Windows MySQL 5.7.36）
+  ① 安装：解压 mysql-5.7.36-winx64.zip → 初始化并安装服务，启动 MySQL 服务
+  ② 设置 root 密码 123456，开通远程连接：
+     mysql -uroot -p
+     ALTER USER 'root'@'localhost' IDENTIFIED BY '123456';
+     GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456';
+     FLUSH PRIVILEGES;
+  ③ Navicat 配置远程连接服务器 MySQL
+  ④ 创建数据库 nleedge，还原数据（运行 data.sql 或还原 nleedge.nb3）
+
+  截图/文件：
+  A-16-1.jpg  windows 服务列表中 MySQL 服务“正在运行”界面
+  A-16-2.jpg  Navicat 成功连接 MySQL 的界面
+  A-16-3.jpg  Navicat 打开 nleedge 数据库，以“详细信息”方式查看数据表
+  A-16-4.sql  查询 nleedge 所有数据表和每个表的记录数【已生成】
+  A-16-5.jpg  在 Navicat 执行 A-16-4.sql，查询语句和查询结果截图
+
+■ 1-9 硬件设备维护（GPS/北斗定位模块）
+  ① 设备接电源；RS232/RS485 转换器 + USB 转串口线连接任务计算机，串口 COM10，波特率 9600
+  ② 打开串口调试工具，参考《山东互信北斗设备.pdf》
+  ③ 发送查询设备地址命令帧 → 显示响应帧
+  ④ 发送设置设备地址命令帧，将设备地址修改为 08
+  ⑤ 发送读取实时经纬度命令帧，收到接收报文（见 A-17-3.txt）
+
+  截图/文件：
+  A-17-1.jpg  设备地址查询命令帧 + 响应帧界面
+  A-17-2.jpg  发送设置地址 08 的命令帧 + 响应帧界面
+  A-17-3.txt  用“字符进制转换工具”将 Hex 定位数据转 ASCII，解析出经纬度与北京时间【已生成】
+
+■ 1-10 职业素养：工位卫生、工具还原、设备摆放规整（现场执行）

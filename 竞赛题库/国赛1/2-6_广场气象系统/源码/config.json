@@ -1,0 +1,9 @@
+{
+  "server_url": "http://192.168.0.138",
+  "username": "",
+  "password": "",
+  "mode": "demo",
+  "tag_temp": "m_louverbox_temp",
+  "tag_hum": "m_louverbox_hum",
+  "refresh_second": 10
+}

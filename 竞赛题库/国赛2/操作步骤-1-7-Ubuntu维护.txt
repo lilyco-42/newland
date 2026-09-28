@@ -1,0 +1,37 @@
+【第2套·子任务1-7 Ubuntu系统运行维护】操作步骤
+================================================
+
+环境：VirtualBox 虚拟机 UbuntuServer 18.04（账号/密码：iotuser/iotuser）
+
+1. 导入虚拟机后立即生成系统快照，名称“Ubuntu竞赛初始版本”
+   → 截图 A-15-1.jpg（界面需体现“竞赛初始版本”信息）
+
+2. 开通 root 用户的 SSH 权限
+   sudo nano /etc/ssh/sshd_config
+   找到 #PermitRootLogin prohibit-password 改为：PermitRootLogin yes
+   保存退出后：sudo systemctl restart sshd
+
+3. Xshell 以 root 用户登录 Ubuntu
+   先在 Ubuntu 终端查询本机 IP：hostname -I  （或 ip addr show）
+   用 Xshell 新建会话连接该 IP，root 登录
+   → 截图 A-15-2.jpg（要求截图体现登录端 IP）
+
+4. 用 xFtp 把 vscode 安装包 vscode_1.63.2.tar.gz
+   上传到 /home/iotuser/Files/ 目录下
+   （若 Files 目录不存在：sudo mkdir /home/iotuser/Files && sudo chmod 777 /home/iotuser/Files）
+
+5. 解压安装包（答案 A-15-3.txt，已生成）
+   tar -zxvf vscode_1.63.2.tar.gz
+   解压后得到 vscode 的 .deb 安装文件。先查看其授权情况：
+   ls -l （记录授权前状态）
+   给 /home/iotuser/Files 目录授予全部权限（包含子目录）：
+   sudo chmod -R 777 /home/iotuser/Files
+   再 ls -l 查看授权后状态
+   → 截图 A-15-4.jpg（授权前后两次界面放一起，红圈圈出权限差异处）
+
+6. 终端命令行安装 vscode 并打开运行
+   sudo dpkg -i code_1.63.2-*.deb
+   若提示依赖缺失：sudo apt-get install -f -y 后再装
+   安装完成的终端界面 → 截图 A-15-5.jpg（红圈圈出安装命令行语句）
+   打开 Ubuntu 桌面显示全部应用程序图标，含 vscode 快捷方式 → 截图 A-15-6.jpg
+   打开 vscode，显示“关于(About)”信息窗口 → 截图 A-15-7.jpg

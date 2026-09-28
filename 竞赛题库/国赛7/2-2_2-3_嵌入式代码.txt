@@ -1,0 +1,361 @@
+========================================
+套7 嵌入式代码 - 智能农业大棚 + 水质监测
+========================================
+
+========================================
+2-2 ZigBee协调器代码 (CC2530 C51) - 土壤传感器汇聚
+========================================
+// ZigBee协调器 - 汇聚土壤传感器数据
+// 适用芯片: CC2530
+// 编译器: IAR Embedded Workbench for 8051
+
+#include <ioCC2530.h>
+#include <string.h>
+#include <stdio.h>
+
+#define FRAME_HEAD 0xAA
+#define FRAME_TAIL 0x55
+#define CMD_SOIL_DATA 0x01
+#define CMD_AIR_DATA 0x02
+#define CMD_CTRL_CMD 0x03
+
+// 土壤传感器数据结构
+typedef struct {
+    uint8_t node_id;
+    uint16_t soil_temp;      // 土壤温度 x10
+    uint16_t soil_humid;     // 土壤湿度 x10
+    uint16_t air_temp;       // 空气温度 x10
+    uint16_t air_humid;      // 空气湿度 x10
+    uint16_t light;          // 光照强度
+    uint8_t battery;         // 电池电量%
+} SoilSensorData_t;
+
+// 协议帧结构
+typedef struct {
+    uint8_t head;
+    uint8_t cmd;
+    uint8_t len;
+    uint8_t data[32];
+    uint8_t tail;
+} ProtocolFrame_t;
+
+static SoilSensorData_t g_sensorData;
+
+// 系统时钟初始化
+void SystemClockInit(void) {
+    CLKCONCMD &= ~0x40;
+    while(CLKCONCMD & 0x40);
+    CLKCONCMD &= ~0x07;
+    CLKCONCMD |= 0x02;
+    while((CLKCONSTA & 0x07) != 0x02);
+}
+
+// UART0初始化 (115200bps)
+void UART0Init(void) {
+    PERCFG |= 0x00;
+    P0SEL |= 0x0C;
+    U0CSR |= 0x40;
+    U0GCR = 11;
+    U0BAUD = 216;
+}
+
+// 串口发送字节
+void UART0SendByte(uint8_t dat) {
+    U0DBUF = dat;
+    while(!UTX0IF);
+    UTX0IF = 0;
+}
+
+// 发送字符串
+void UART0SendString(uint8_t *str, uint8_t len) {
+    uint8_t i;
+    for(i = 0; i < len; i++) {
+        UART0SendByte(str[i]);
+    }
+}
+
+// 发送协议帧到上位机
+void SendToHost(uint8_t cmd, uint8_t *data, uint8_t len) {
+    uint8_t i;
+    UART0SendByte(FRAME_HEAD);
+    UART0SendByte(cmd);
+    UART0SendByte(len);
+    for(i = 0; i < len; i++) {
+        UART0SendByte(data[i]);
+    }
+    UART0SendByte(FRAME_TAIL);
+}
+
+// ZigBee协议栈初始化
+void ZigBeeInit(void) {
+    RFIRQF0 &= ~0x40;
+    RFST = 0xE9;
+    RFST = 0xE8;
+    RFIRQF0 &= ~0x40;
+    RFIRQF1 &= ~0x40;
+    S1CON &= ~0x03;
+    S1CON |= 0x01;
+}
+
+// 处理土壤传感器数据
+void ProcessSoilData(uint8_t *data, uint8_t len) {
+    if(len >= sizeof(SoilSensorData_t)) {
+        memcpy(&g_sensorData, data, sizeof(SoilSensorData_t));
+        // 上传到上位机
+        SendToHost(CMD_SOIL_DATA, (uint8_t*)&g_sensorData, sizeof(SoilSensorData_t));
+    }
+}
+
+// 处理控制命令 (通风/灌溉)
+void ProcessControlCommand(uint8_t *data, uint8_t len) {
+    uint8_t cmd_type = data[0];
+    uint8_t zone_id = data[1];
+    uint8_t action = data[2];
+
+    if(cmd_type == 0x01) {
+        // 通风控制
+        if(action) {
+            // 开启通风
+        } else {
+            // 关闭通风
+        }
+    } else if(cmd_type == 0x02) {
+        // 灌溉控制
+        if(action) {
+            // 开启灌溉
+        } else {
+            // 关闭灌溉
+        }
+    }
+}
+
+// 主函数
+void main(void) {
+    SystemClockInit();
+    UART0Init();
+    ZigBeeInit();
+
+    while(1) {
+        // 接收ZigBee传感器数据
+        // 处理串口命令
+        // 定期发送心跳包
+    }
+}
+
+
+========================================
+2-3 NB-IoT水质监测节点代码
+========================================
+// NB-IoT水质监测节点 - BC26模组 + pH/浊度/DO传感器
+// 适用芯片: STM32F103C8T6 + Quectel BC26
+// 编译器: Keil MDK-ARM
+
+#include "stm32f10x.h"
+#include "bc26.h"
+#include "delay.h"
+#include "usart.h"
+#include "adc.h"
+#include <string.h>
+#include <stdio.h>
+
+// MQTT配置
+#define MQTT_SERVER "broker.nlecloud.com"
+#define MQTT_PORT 1883
+#define MQTT_CLIENT_ID "water_quality_001"
+#define MQTT_TOPIC_PUB "water/quality/data"
+#define MQTT_TOPIC_SUB "water/quality/cmd"
+
+// 传感器引脚定义
+#define PH_PIN ADC_Channel_0
+#define TURBIDITY_PIN ADC_Channel_1
+#define DO_PIN ADC_Channel_2
+#define TEMP_PIN ADC_Channel_3
+
+// 数据包结构
+typedef struct {
+    uint8_t node_id;
+    float ph;
+    float turbidity;
+    float dissolved_oxygen;
+    float temperature;
+    uint16_t battery_mv;
+    uint8_t checksum;
+} WaterQualityPacket_t;
+
+static WaterQualityPacket_t g_packet;
+static uint8_t g_sendInterval = 30;  // 发送间隔(秒)
+
+// RCC时钟配置
+void RCC_Configuration(void) {
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB |
+                           RCC_APB2Periph_USART1 | RCC_APB2Periph_ADC1, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+}
+
+// GPIO初始化
+void GPIO_Configuration(void) {
+    GPIO_InitTypeDef GPIO_InitStructure;
+    // LED指示灯
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+    // BC26复位引脚
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
+}
+
+// ADC初始化 (用于传感器)
+void ADC1_Init(void) {
+    ADC_InitTypeDef ADC_InitStructure;
+    ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
+    ADC_InitStructure.ADC_ScanConvMode = DISABLE;
+    ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
+    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+    ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+    ADC_InitStructure.ADC_NbrOfChannel = 1;
+    ADC_Init(ADC1, &ADC_InitStructure);
+    ADC_Cmd(ADC1, ENABLE);
+    ADC calibration
+}
+
+// 读取ADC值
+uint16_t ReadADC(uint8_t channel) {
+    ADC_RegularChannelConfig(ADC1, channel, 1, ADC_SampleTime_239Cycles5);
+    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+    while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC));
+    return ADC_GetConversionValue(ADC1);
+}
+
+// 计算pH值 (0-14)
+float CalculatePH(uint16_t adc_val) {
+    float voltage = adc_val * 3.3 / 4096.0;
+    float ph = 7.0 + (voltage - 1.5) * 3.5;
+    if(ph < 0) ph = 0;
+    if(ph > 14) ph = 14;
+    return ph;
+}
+
+// 计算浊度 (NTU)
+float CalculateTurbidity(uint16_t adc_val) {
+    float voltage = adc_val * 3.3 / 4096.0;
+    float turbidity = (3.3 - voltage) * 50.0;
+    if(turbidity < 0) turbidity = 0;
+    if(turbidity > 100) turbidity = 100;
+    return turbidity;
+}
+
+// 计算溶解氧 (mg/L)
+float CalculateDO(uint16_t adc_val) {
+    float voltage = adc_val * 3.3 / 4096.0;
+    float do_val = voltage * 5.0;
+    return do_val;
+}
+
+// BC26初始化
+uint8_t BC26_Init(void) {
+    // 发送AT指令测试
+    if(BC26_SendAT("AT", "OK", 2000) != 0) return 1;
+    // 查询信号强度
+    BC26_SendAT("AT+CSQ", "OK", 3000);
+    // 配置APN
+    BC26_SendAT("AT+CGDCONT=1,\"IP\",\"ctnet\"", "OK", 3000);
+    // 激活PDP
+    BC26_SendAT("AT+CGACT=1,1", "OK", 5000);
+    return 0;
+}
+
+// MQTT连接
+uint8_t MQTT_Connect(void) {
+    char cmd[128];
+    sprintf(cmd, "AT+MQTTCFG=%s,%d,%s", MQTT_SERVER, MQTT_PORT, MQTT_CLIENT_ID);
+    if(BC26_SendAT(cmd, "OK", 10000) != 0) return 1;
+    // 订阅控制主题
+    sprintf(cmd, "AT+MQTTSUB=%s", MQTT_TOPIC_SUB);
+    BC26_SendAT(cmd, "OK", 5000);
+    return 0;
+}
+
+// MQTT发布数据
+uint8_t MQTT_Publish(char *data) {
+    char cmd[256];
+    sprintf(cmd, "AT+MQTTPUB=%s,0,0,\"%s\"", MQTT_TOPIC_PUB, data);
+    return BC26_SendAT(cmd, "OK", 10000);
+}
+
+// 电池电压检测
+uint16_t GetBatteryVoltage(void) {
+    uint16_t val = ReadADC(ADC_Channel_16);
+    return (uint16_t)((val * 3300 * 2) / 4096);
+}
+
+// 组装JSON数据
+void BuildJSON(char *buf, WaterQualityPacket_t *pkt) {
+    sprintf(buf,
+        "{\"node_id\":%d,\"ph\":%.1f,\"turbidity\":%.1f,"
+        "\"do\":%.1f,\"temp\":%.1f,\"battery\":%d}",
+        pkt->node_id, pkt->ph, pkt->turbidity,
+        pkt->dissolved_oxygen, pkt->temperature, pkt->battery_mv);
+}
+
+// 主函数
+int main(void) {
+    uint16_t adc_val;
+    char json_buf[256];
+
+    SystemInit();
+    Delay_Init();
+    RCC_Configuration();
+    GPIO_Configuration();
+    ADC1_Init();
+    USART1_Init(115200);
+    USART2_Init(9600);
+
+    printf("Water Quality Node Started\r\n");
+
+    // 初始化BC26
+    if(BC26_Init() == 0) {
+        printf("BC26 Connected\r\n");
+        // 连接MQTT
+        if(MQTT_Connect() == 0) {
+            printf("MQTT Connected\r\n");
+        }
+    }
+
+    while(1) {
+        // 读取传感器
+        adc_val = ReadADC(PH_PIN);
+        g_packet.ph = CalculatePH(adc_val);
+
+        adc_val = ReadADC(TURBIDITY_PIN);
+        g_packet.turbidity = CalculateTurbidity(adc_val);
+
+        adc_val = ReadADC(DO_PIN);
+        g_packet.dissolved_oxygen = CalculateDO(adc_val);
+
+        adc_val = ReadADC(TEMP_PIN);
+        g_packet.temperature = adc_val * 3.3 / 4096.0 * 100.0;
+
+        g_packet.node_id = 0x01;
+        g_packet.battery_mv = GetBatteryVoltage();
+        g_packet.checksum = g_packet.node_id +
+                           (uint8_t)(g_packet.ph * 10) +
+                           (uint8_t)(g_packet.turbidity);
+
+        printf("pH=%.1f, Turbidity=%.1f NTU, DO=%.1f mg/L, Temp=%.1f C\r\n",
+               g_packet.ph, g_packet.turbidity,
+               g_packet.dissolved_oxygen, g_packet.temperature);
+
+        // 组装JSON并发送
+        BuildJSON(json_buf, &g_packet);
+        MQTT_Publish(json_buf);
+
+        // LED指示
+        GPIO_SetBits(GPIOC, GPIO_Pin_13);
+        Delay_ms(100);
+        GPIO_ResetBits(GPIOC, GPIO_Pin_13);
+
+        // 等待
+        Delay_ms(g_sendInterval * 1000);
+    }
+}

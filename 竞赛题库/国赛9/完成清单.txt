@@ -1,0 +1,27 @@
+﻿【第9套·完成清单】（GZ038 2023 赛题）
+========================================
+■ 模块一 1-6 ~ 1-9
+  ✅ 已生成文本答案：
+     - A-16-2.txt   tar -zcvf xxx.tar.gz aaa bbb
+     - A-16-3.txt   chmod -R 777 bbb
+     - A-16-5.txt   cat /etc/os-release
+     - A-16-6.txt   ulimit -a
+     - A-17-4.sql   查询 nleedge 所有数据表和每个表记录数
+  ✅ 操作指南：模块一-操作步骤-1-6至1-9.txt
+    （组策略改名newadmin / hosts绑定 / tracert；Ubuntu全套；MySQL；
+      联动控制器TCP协议 CONN_REQ/CMD_REQ 报文流程）
+  ⚠️ 待实操截图：A-15-1~3、A-16-1、A-16-4、A-17-1~3、A-17-5、A-18-1~6
+■ 模块二
+  ✅ 2-1 原型设计：2-1_原型HTML\index.html（E-4-原型页面壳）
+  ✅ 2-2/2-3 嵌入式代码骨架：2-2_2-3_嵌入式代码.txt（CC2530 串口 FE 01 xx FF +
+     CRC-16/Modbus 返回帧；NB-IoT 环境监控灯 temp<28 LED2）
+  ✅ 2-6 气象系统：2-6_气象系统\weather_led.py（5项数据10秒刷新LED屏+可选串口）
+  ✅ 2-7 门禁系统：2-7_门禁系统\door_system.py（UHF发卡器57600串口/三卡开门关门未注册/
+     电动推杆+LED屏"欢迎光临/您走好/未注册"/接近行程开关到位）
+  ✅ 模块二-操作步骤与交付物.txt
+■ 待现场（硬件/发布）
+  ⚠️ 1-6 组策略/hosts/tracert；1-7 虚拟机；1-8 MySQL/Navicat；1-9 联动控制器8步TCP流程
+  ⚠️ 2-2 CC2530 串口通信系统开发+CRC16；2-3 NB-IoT 环境监控灯
+  ⚠️ 2-4 设备控制 / 2-5 室内温湿度 Android 开发发布
+  ✅ 2-6/2-7 exe 已打包并冒烟通过：气象系统.exe(8MB) + 门禁系统.exe(8MB)
+      → 汇总于 9\模块二\exe\

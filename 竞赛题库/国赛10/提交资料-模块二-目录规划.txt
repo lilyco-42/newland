@@ -1,0 +1,16 @@
+【第10套 · D:\提交资料\模块二 目录规划】（U盘同结构拷贝）
+========================================================
+提交资料\模块二\
+├─ 题2\  风扇控制系统.rar（CC2530 A→B 继电器风扇，SW1 启停）
+├─ 题3\  LoRa环境监控.rar（主控+节点 4 界面：欢迎/温度/湿度/光照，SW2 切页）
+├─ 题4\  RGB调色器.rar（Android）
+├─ 题5\  物料监控.rar（Android）
+├─ 题6\  门闸环境监控系统.rar（gate_env.py + config.json）
+└─ 题7\  商品管理系统.rar（product_manage.py + config.json）
+
+说明：
+  · exe 打包命令：
+    pyinstaller -F -w -n 门闸环境监控系统 gate_env.py
+    pyinstaller -F -w -n 商品管理系统 product_manage.py
+  · 题6 摄像头 snapshot/ptz URL 与 TCP 串口服务器地址在 config.json 按赛场实际改
+  · 题7 超高频读写器串口（COM4/115200）与报警灯 TCP 地址在 config.json 按实际改

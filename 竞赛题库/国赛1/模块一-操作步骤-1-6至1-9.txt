@@ -1,0 +1,35 @@
+套1 模块一 操作步骤（1-6至1-9）
+===================================
+
+一、1-6 Windows Server 组策略配置
+  1. 打开"组策略管理"控制台(gpmc.msc)
+  2. 右键域→创建GPO并链接
+  3. 编辑GPO→计算机配置→策略→Windows设置
+  4. 配置密码策略：最小密码长度12位，复杂度要求启用
+  5. 配置软件分发：分配安装MSI包
+  6. 运行gpupdate /force刷新策略
+  7. 截图保存
+
+二、1-7 Ubuntu 系统维护
+  1. sudo apt update && sudo apt upgrade -y
+  2. sudo systemctl status nginx/mysql/redis
+  3. sudo ufw enable && sudo ufw allow 22,80,443
+  4. sudo systemctl enable nginx
+  5. df -h / free -m / top 查看系统资源
+  6. 截图保存
+
+三、1-8 MySQL/SQL Server 数据库运维
+  1. MySQL: mysqldump -u root -p dbname > backup.sql
+  2. MySQL: mysql -u root -p dbname < backup.sql
+  3. SQL Server: CREATE DATABASE dbname
+  4. SQL Server: BACKUP DATABASE dbname TO DISK='...'
+  5. Navicat连接测试
+  6. 截图保存
+
+四、1-9 NB-IoT/ZigBee/LoRa 硬件维护
+  1. 连接CC2530开发板
+  2. 使用SmartRF Flash Programmer烧录固件
+  3. 配置串口波特率115200
+  4. 测试LoRa模块通信距离
+  5. NB-IoT模组AT指令测试
+  6. 截图保存

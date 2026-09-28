@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能农业大棚监控系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Microsoft YaHei", sans-serif; background: #0a1628; color: #e0e0e0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1b4332, #0d2818); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #52b788; }
+        .header h1 { font-size: 22px; color: #52b788; }
+        .header .time { font-size: 14px; color: #aaa; }
+        .main { display: flex; padding: 15px; gap: 15px; }
+        .left-panel { flex: 2; display: flex; flex-direction: column; gap: 15px; }
+        .right-panel { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+        .card { background: #112240; border-radius: 10px; padding: 15px; border: 1px solid #1e3a5f; }
+        .card h2 { color: #52b788; font-size: 15px; margin-bottom: 12px; border-bottom: 1px solid #1e3a5f; padding-bottom: 8px; }
+        .sensor-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .sensor-card { background: #0a1628; border-radius: 8px; padding: 15px; text-align: center; border: 1px solid #1e3a5f; }
+        .sensor-card .icon { font-size: 24px; margin-bottom: 5px; }
+        .sensor-card .value { font-size: 24px; font-weight: bold; margin: 5px 0; }
+        .sensor-card .label { font-size: 11px; color: #8b949e; }
+        .sensor-card .bar { height: 4px; background: #1e3a5f; border-radius: 2px; margin-top: 8px; overflow: hidden; }
+        .sensor-card .bar-fill { height: 100%; border-radius: 2px; }
+        .zone-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .zone-card { background: #0a1628; border-radius: 8px; padding: 12px; border: 1px solid #1e3a5f; }
+        .zone-card h3 { font-size: 13px; color: #52b788; margin-bottom: 8px; }
+        .zone-card .info { font-size: 12px; color: #8b949e; line-height: 1.8; }
+        .zone-card .status { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-top: 5px; }
+        .status.normal { background: #1b4332; color: #52b788; }
+        .status.warning { background: #4a3000; color: #e3b341; }
+        .status.danger { background: #3d0c0c; color: #ff7b72; }
+        .control-panel { display: flex; flex-direction: column; gap: 10px; }
+        .control-item { display: flex; justify-content: space-between; align-items: center; background: #0a1628; border-radius: 8px; padding: 12px; border: 1px solid #1e3a5f; }
+        .control-item .name { font-size: 13px; }
+        .control-item .btn { padding: 6px 16px; border: none; border-radius: 5px; cursor: pointer; font-size: 12px; }
+        .btn-on { background: #238636; color: white; }
+        .btn-off { background: #da3633; color: white; }
+        .irrigation-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .irr-item { background: #0a1628; border-radius: 8px; padding: 10px; text-align: center; border: 1px solid #1e3a5f; }
+        .irr-item .zone-name { font-size: 12px; color: #8b949e; }
+        .irr-item .irr-status { font-size: 14px; font-weight: bold; margin: 5px 0; }
+        .irr-item .irr-btn { padding: 4px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; margin-top: 5px; }
+        .chart-container { background: #0a1628; border-radius: 8px; padding: 10px; border: 1px solid #1e3a5f; height: 150px; position: relative; }
+        .chart-bar { position: absolute; bottom: 5px; width: 4%; border-radius: 2px 2px 0 0; transition: height 0.3s; }
+        .log-area { height: 120px; overflow-y: auto; background: #0a1628; border-radius: 8px; padding: 10px; border: 1px solid #1e3a5f; font-size: 11px; line-height: 1.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>&#127807; 智能农业大棚监控系统</h1>
+        <div class="time" id="currentTime"></div>
+    </div>
+    <div class="main">
+        <div class="left-panel">
+            <div class="card">
+                <h2>&#127777; 环境传感器</h2>
+                <div class="sensor-grid" id="sensorGrid"></div>
+            </div>
+            <div class="card">
+                <h2>&#127966; 大棚区域</h2>
+                <div class="zone-grid" id="zoneGrid"></div>
+            </div>
+            <div class="card">
+                <h2>&#128200; 温湿度趋势</h2>
+                <div class="chart-container" id="tempChart"></div>
+            </div>
+        </div>
+        <div class="right-panel">
+            <div class="card">
+                <h2>&#9881; 设备控制</h2>
+                <div class="control-panel" id="controlPanel"></div>
+            </div>
+            <div class="card">
+                <h2>&#128167; 灌溉控制</h2>
+                <div class="irrigation-grid" id="irrGrid"></div>
+            </div>
+            <div class="card" style="flex:1">
+                <h2>&#128220; 系统日志</h2>
+                <div class="log-area" id="logArea"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var sensors = [
+            {name:"空气温度",value:"26.5°C",icon:"&#127777;",color:"#ff6b6b",pct:65},
+            {name:"空气湿度",value:"72%",icon:"&#128167;",color:"#4ecdc4",pct:72},
+            {name:"土壤湿度",value:"45%",icon:"&#127793;",color:"#a29bfe",pct:45},
+            {name:"光照强度",value:"8500 lux",icon:"&#9728;",color:"#ffeaa7",pct:85},
+            {name:"CO2浓度",value:"420 ppm",icon:"&#127752;",color:"#74b9ff",pct:42},
+            {name:"土壤温度",value:"22.3°C",icon:"&#128293;",color:"#e17055",pct:55},
+            {name:"土壤pH",value:"6.8",icon:"&#129514;",color:"#00cec9",pct:68},
+            {name:"风速",value:"2.3 m/s",icon:"&#127744;",color:"#636e72",pct:23}
+        ];
+        var zones = [
+            {name:"A区-番茄",temp:"26°C",humid:"75%",soil:"48%",status:"normal",statusText:"正常"},
+            {name:"B区-黄瓜",temp:"28°C",humid:"80%",soil:"52%",status:"warning",statusText:"湿度偏高"},
+            {name:"C区-辣椒",temp:"25°C",humid:"68%",soil:"42%",status:"normal",statusText:"正常"},
+            {name:"D区-草莓",temp:"22°C",humid:"70%",soil:"55%",status:"normal",statusText:"正常"},
+            {name:"E区-生菜",temp:"24°C",humid:"72%",soil:"50%",status:"normal",statusText:"正常"},
+            {name:"F区-育苗",temp:"27°C",humid:"85%",soil:"60%",status:"warning",statusText:"需通风"}
+        ];
+        var controls = [
+            {name:"&#127777; 通风系统",on:true},
+            {name:"&#128161; 补光灯",on:true},
+            {name:"&#127774; 加热器",on:false},
+            {name:"&#128293; 遮阳帘",on:false},
+            {name:"&#128167; 喷灌系统",on:true},
+            {name:"&#128225; CO2发生器",on:false}
+        ];
+        var irrigations = [
+            {name:"A区番茄",on:true},{name:"B区黄瓜",on:false},
+            {name:"C区辣椒",on:true},{name:"D区草莓",on:false},
+            {name:"E区生菜",on:true},{name:"F区育苗",on:false}
+        ];
+        function renderSensors(){
+            var grid=document.getElementById("sensorGrid");
+            var html="";
+            for(var i=0;i<sensors.length;i++){
+                var s=sensors[i];
+                html+='<div class="sensor-card"><div class="icon">'+s.icon+'</div>';
+                html+='<div class="value" style="color:'+s.color+'">'+s.value+'</div>';
+                html+='<div class="label">'+s.name+'</div>';
+                html+='<div class="bar"><div class="bar-fill" style="width:'+s.pct+'%;background:'+s.color+'"></div></div></div>';
+            }
+            grid.innerHTML=html;
+        }
+        function renderZones(){
+            var grid=document.getElementById("zoneGrid");
+            var html="";
+            for(var i=0;i<zones.length;i++){
+                var z=zones[i];
+                html+='<div class="zone-card"><h3>'+z.name+'</h3>';
+                html+='<div class="info">温度: '+z.temp+'<br>湿度: '+z.humid+'<br>土壤: '+z.soil+'</div>';
+                html+='<div class="status '+z.status+'">'+z.statusText+'</div></div>';
+            }
+            grid.innerHTML=html;
+        }
+        function renderControls(){
+            var panel=document.getElementById("controlPanel");
+            var html="";
+            for(var i=0;i<controls.length;i++){
+                var c=controls[i];
+                var btnClass=c.on?"btn-off":"btn-on";
+                var btnText=c.on?"关闭":"开启";
+                html+='<div class="control-item"><span class="name">'+c.name+'</span>';
+                html+='<button class="btn '+btnClass+'" onclick="toggleControl('+i+')">'+btnText+'</button></div>';
+            }
+            panel.innerHTML=html;
+        }
+        function renderIrrigation(){
+            var grid=document.getElementById("irrGrid");
+            var html="";
+            for(var i=0;i<irrigations.length;i++){
+                var irr=irrigations[i];
+                var color=irr.on?"#52b788":"#636e72";
+                var text=irr.on?"灌溉中":"已关闭";
+                var btnClass=irr.on?"btn-off":"btn-on";
+                var btnText=irr.on?"停止":"启动";
+                html+='<div class="irr-item"><div class="zone-name">'+irr.name+'</div>';
+                html+='<div class="irr-status" style="color:'+color+'">'+text+'</div>';
+                html+='<button class="irr-btn '+btnClass+'" onclick="toggleIrr('+i+')">'+btnText+'</button></div>';
+            }
+            grid.innerHTML=html;
+        }
+        function renderChart(){
+            var chart=document.getElementById("tempChart");
+            var html="";
+            for(var i=0;i<25;i++){
+                var h=Math.random()*70+20;
+                var color=h>70?"#ff6b6b":h>50?"#ffeaa7":"#52b788";
+                html+='<div class="chart-bar" style="left:'+(i*3.8+2)+'%;height:'+h+'%;background:'+color+'"></div>';
+            }
+            chart.innerHTML=html;
+        }
+        function toggleControl(idx){controls[idx].on=!controls[idx].on;renderControls();}
+        function toggleIrr(idx){irrigations[idx].on=!irrigations[idx].on;renderIrrigation();}
+        function addLog(msg){
+            var el=document.getElementById("logArea");
+            var now=new Date();
+            var ts=now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+            el.innerHTML='['+ts+'] '+msg+'<br>'+el.innerHTML;
+        }
+        function updateTime(){
+            var now=new Date();
+            document.getElementById("currentTime").textContent=now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate()+' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+        }
+        renderSensors();renderZones();renderControls();renderIrrigation();renderChart();updateTime();
+        setInterval(updateTime,1000);
+        setInterval(function(){addLog("传感器数据已更新");renderChart();},5000);
+    </script>
+</body>
+</html>

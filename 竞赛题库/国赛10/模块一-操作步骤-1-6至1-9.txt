@@ -1,0 +1,66 @@
+【第10套·模块一 1-6 至 1-9】操作步骤与截图清单
+================================================
+
+■ 1-6 Windows系统维护（cmd 命令行）
+  ① 打开本地 Windows 服务界面：
+     services.msc
+  ② 打开本地安全策略窗口：
+     secpol.msc
+  ③ 打开屏幕键盘：
+     osk
+
+  截图：
+  A-15-1.jpg  cmd 执行 services.msc 打开本地服务界面（体现命令和执行结果）
+  A-15-2.jpg  cmd 执行 secpol.msc 打开本地安全策略界面
+  A-15-3.jpg  cmd 执行 osk 打开屏幕键盘界面
+
+■ 1-7 Ubuntu系统维护（虚拟机，ssh 登录）
+  ① 根据模块一"局域网各设备IP配置"设置 Ubuntu 系统 IP 地址
+     sudo nano /etc/netplan/*.yaml  （或 /etc/network/interfaces）
+     example：addresses: [192.168.0.xx/24]，gateway4: 192.168.0.1，dns 8.8.8.8
+     sudo netplan apply
+  ② 查询系统已安装的包信息：dpkg -l
+  ③ 配置允许 tcp 协议通过 eth0 网卡 80 端口进入服务器：
+     （先清空规则再添加，或使用以下添加命令）
+     sudo iptables -A INPUT -p tcp --dport 80 -i eth0 -j ACCEPT
+     （如需持久化：sudo apt install iptables-persistent → netfilter-persistent save）
+  ④ 查看 USB 设备的详细描述信息：lsusb -v
+
+  截图：
+  A-16-1.jpg  服务器计算机 ssh 登录 Ubuntu 成功界面（红框圈出 ssh 命令及登录成功结果）
+  A-16-2.jpg  dpkg -l 查询已安装包信息界面（红框圈出命令）
+  A-16-3.jpg  iptables 允许 tcp 通过 eth0 80 端口界面（红框圈出命令）
+  A-16-4.jpg  lsusb -v 查询 USB 设备详细描述信息界面（红框圈出命令）
+
+■ 1-8 数据库运维查询与优化（SQL Server，TestDataBase）
+  ① 新建数据库 TestDataBase（SSMS → 新建数据库）
+  ② 执行竞赛资料脚本 T_SQL.sql，生成数据表与表数据
+  ③ 编写存储过程 ProStaticOrderInfo（已生成 ProStaticOrderInfo.sql）：
+     统计每日商品销售数量以及销售金额，仅保留最新统计记录，写入 T_OrderInfoStatic 表
+  ④ 创建自动维护计划（SQL Server 代理 → 作业）：
+     作业名：Maintain_OrderStatic
+     步骤类型：Transact-SQL 脚本 (T-SQL)，命令：EXEC ProStaticOrderInfo
+     计划：每 5 分钟执行一次（新建计划 → 频率“每天”，每 5 分钟）
+     ※ 若代理未启用：SSMS 对象资源管理器右键“SQL Server 代理” → 启动
+
+  截图/文件：
+  ProStaticOrderInfo.sql  存储过程语句【已生成】
+  A-17-1.jpg  自动维护计划配置界面（可见执行时间和具体执行任务）
+  A-17-2.jpg  选择“执行 T-SQL 语句”任务界面
+
+■ 1-9 设备维护（双 WAN 口 + 打印机永久路由）
+  问题：打印机 192.168.14.241 必须经 172.26.103.x 网段访问，
+        但检查发现其 IP 路由自动指向 192.168.0.x 网段。
+  命令（管理员 cmd）：
+  ① 查询打印机当前路由：route print（确认 192.168.14.241 的路径）
+  ② 删除错误路由（如存在）：
+     route delete 192.168.14.241
+  ③ 手动指定永久路由（指向 172.26.103.x 网关）：
+     route -p add 192.168.14.241 mask 255.255.255.255 172.26.103.254
+  ④ 验证永久路由：route print -4
+
+  截图：
+  A-18-1.jpg  查询打印机 IP 路由指向 172.26.103.x 网段信息界面
+  A-18-2.jpg  显示已添加的 IPV4 永久路由信息界面
+
+■ 1-10 职业素养：现场执行（卫生/整理/还原）

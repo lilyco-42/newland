@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">森林火灾监控</string>
+    <string name="main_title">森林火灾报警系统</string>
+    <string name="login_title">登录云服务系统</string>
+    <string name="login_account_hint">用户名</string>
+    <string name="login_password_hint">密码</string>
+    <string name="btn_login">登录</string>
+    <string name="btn_settings">设置</string>
+    <string name="btn_logout">注销</string>
+    <string name="settings_title">环境云参数设置</string>
+    <string name="label_server">云服务地址</string>
+    <string name="label_sensor_tag">烟雾数据标识</string>
+    <string name="label_interval">刷新间隔(秒)</string>
+    <string name="label_mode">数据模式</string>
+    <string name="label_threshold">报警阈值</string>
+    <string name="mode_cloud">云服务系统</string>
+    <string name="mode_demo">模拟测试</string>
+    <string name="btn_save_settings">保存设置</string>
+    <string name="fire_status_normal">无火焰</string>
+    <string name="fire_status_alarm">有火焰</string>
+    <string name="fire_status_label">烟雾(A-Q2)监测</string>
+    <string name="led_text_normal">正常</string>
+    <string name="led_text_alarm">发现烟雾报警，小心火灾</string>
+    <string name="collect_time_label">采集时间</string>
+    <string name="smoke_value_label">烟雾浓度</string>
+    <string name="user_label">用户</string>
+    <string name="no_alarm_status">无报警</string>
+    <string name="alarm_active">报警中</string>
+</resources>

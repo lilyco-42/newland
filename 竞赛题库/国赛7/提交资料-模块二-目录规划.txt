@@ -1,0 +1,31 @@
+套7 提交资料 模块二 目录规划
+================================
+U盘结构：
+U盘/
+├── 模块二/
+│   ├── 2-1_界面设计/
+│   │   └── agri_dashboard.html
+│   ├── 2-6_农业大棚监控/
+│   │   ├── 农业大棚监控.py
+│   │   ├── requirements.txt
+│   │   └── dist/农业大棚监控.exe
+│   ├── 2-7_水质监测/
+│   │   ├── 水质监测.py
+│   │   ├── requirements.txt
+│   │   └── dist/水质监测.exe
+│   ├── exe/
+│   │   ├── 农业大棚监控.exe
+│   │   └── 水质监测.exe
+│   └── 2-2_2-3_嵌入式代码.txt
+└── 模块一/
+    └── 截图/
+        └── A-16-x.jpg, A-17-x.jpg
+
+打包命令（在Python 3.6 venv中执行）：
+cd 2-6_农业大棚监控
+D:\源码\2-6_监控管理系统\.venv\Scripts\pyinstaller.exe --onefile --name 农业大棚监控 农业大棚监控.py
+copy dist\*.exe ..\..\exe\
+
+cd ..\2-7_水质监测
+D:\源码\2-6_监控管理系统\.venv\Scripts\pyinstaller.exe --onefile --name 水质监测 水质监测.py
+copy dist\*.exe ..\..\exe\

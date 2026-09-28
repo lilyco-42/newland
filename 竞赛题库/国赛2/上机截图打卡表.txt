@@ -1,0 +1,26 @@
+【第2套 · 上机截图打卡表】（模块一 1-6~1-9）
+================================================
+□ A-14-1.jpg   组策略 4 项启用（gpedit.msc → 用户配置\管理模板\桌面：我的文档路径、
+   任务栏添加删除、退出不保存设置、隐藏禁用桌面所有项目）红圈圈修改项
+■ A-14-2.txt   convert F: /fs:ntfs（已生成）
+■ A-14-3.txt   空格路径错误解析 + del "C:\Program Files\test\my.txt"（已生成）
+
+□ A-15-1.jpg   虚拟机快照名"Ubuntu竞赛初始版本"（导入后立即做）
+□ A-15-2.jpg   Xshell 以 root 登录 Ubuntu（截图体现登录端 IP）
+■ A-15-3.txt   tar -zxvf vscode_1.63.2.tar.gz（已生成）
+□ A-15-4.jpg   chmod -R 777 /home/iotuser/Files 授权前后 ls -l 对比（红圈差异）
+□ A-15-5.jpg   sudo dpkg -i code_1.63.2-*.deb 安装完成终端（红圈命令行）
+□ A-15-6.jpg   Ubuntu 桌面全部应用图标（含 vscode 快捷方式）
+□ A-15-7.jpg   vscode 打开 "关于" 信息窗口
+
+□ A-16-1.jpg   mysqld.cnf 的 bind-address=0.0.0.0 + GRANT 'root'@'%' 授权语句
+□ A-16-2.jpg   SELECT VERSION();
+□ A-16-3.jpg   SHOW COLLATION;
+□ A-16-4.jpg   SHOW VARIABLES LIKE 'max_connections';
+□ A-16-5.jpg   SHOW STATUS LIKE 'Table_locks%';
+□ A-16-6.jpg   Navicat 成功连接 Ubuntu MySQL（图含数据库列表）
+
+□ A-17-1.jpg   NB-IoT：AT+ICCID（或 AT+CIMI）响应帧完整截图
+□ A-17-2.jpg   NB-IoT：ATI（或 AT+CGMM）响应帧完整截图
+
+◇ 1-10 职业素养：现场卫生/整理/还原

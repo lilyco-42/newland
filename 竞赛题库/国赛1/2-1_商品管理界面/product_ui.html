@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>商品管理系统</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "Microsoft YaHei", sans-serif; background: #f0f2f5; }
+.header { background: #1890ff; color: white; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+.header h1 { font-size: 20px; }
+.header .user { font-size: 14px; }
+.container { display: flex; height: calc(100vh - 56px); }
+.sidebar { width: 200px; background: #fff; border-right: 1px solid #e8e8e8; padding: 16px 0; }
+.sidebar h3 { padding: 8px 16px; color: #666; font-size: 13px; }
+.sidebar ul { list-style: none; }
+.sidebar li { padding: 10px 16px; cursor: pointer; font-size: 14px; }
+.sidebar li:hover, .sidebar li.active { background: #e6f7ff; color: #1890ff; }
+.main { flex: 1; padding: 20px; overflow-y: auto; }
+.toolbar { display: flex; gap: 12px; margin-bottom: 16px; }
+.toolbar input { padding: 6px 12px; border: 1px solid #d9d9d9; border-radius: 4px; width: 200px; }
+.toolbar button { padding: 6px 16px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+.btn-primary { background: #1890ff; color: white; }
+.btn-danger { background: #ff4d4f; color: white; }
+.btn-success { background: #52c41a; color: white; }
+table { width: 100%; border-collapse: collapse; background: white; border-radius: 4px; overflow: hidden; }
+th { background: #fafafa; padding: 12px; text-align: left; font-weight: 600; border-bottom: 1px solid #e8e8e8; }
+td { padding: 12px; border-bottom: 1px solid #f0f0f0; }
+tr:hover { background: #f5f5f5; }
+.stats { display: flex; gap: 16px; margin-bottom: 16px; }
+.stat-card { flex: 1; background: white; padding: 16px; border-radius: 4px; text-align: center; }
+.stat-card .num { font-size: 28px; color: #1890ff; font-weight: bold; }
+.stat-card .label { font-size: 13px; color: #999; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📦 商品管理系统</h1>
+  <span class="user">管理员 | 退出</span>
+</div>
+<div class="container">
+  <div class="sidebar">
+    <h3>商品分类</h3>
+    <ul>
+      <li class="active">全部商品</li>
+      <li>电子产品</li>
+      <li>办公用品</li>
+      <li>生活用品</li>
+      <li>食品饮料</li>
+    </ul>
+  </div>
+  <div class="main">
+    <div class="stats">
+      <div class="stat-card"><div class="num">128</div><div class="label">商品总数</div></div>
+      <div class="stat-card"><div class="num">¥25,680</div><div class="label">总库存价值</div></div>
+      <div class="stat-card"><div class="num">12</div><div class="label">缺货商品</div></div>
+      <div class="stat-card"><div class="num">4</div><div class="label">分类数</div></div>
+    </div>
+    <div class="toolbar">
+      <input type="text" placeholder="搜索商品名称...">
+      <button class="btn-primary">搜索</button>
+      <button class="btn-success" onclick="alert('添加商品')">+ 添加商品</button>
+      <button class="btn-primary" onclick="alert('导出数据')">导出</button>
+    </div>
+    <table>
+      <thead>
+        <tr><th>ID</th><th>商品名称</th><th>分类</th><th>价格</th><th>库存</th><th>状态</th><th>操作</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1001</td><td>温湿度传感器</td><td>电子产品</td><td>¥45.00</td><td>200</td><td>正常</td><td><a href="#">编辑</a> <a href="#" style="color:red">删除</a></td></tr>
+        <tr><td>1002</td><td>CC2530开发板</td><td>电子产品</td><td>¥128.00</td><td>50</td><td>正常</td><td><a href="#">编辑</a> <a href="#" style="color:red">删除</a></td></tr>
+        <tr><td>1003</td><td>LoRa模块</td><td>电子产品</td><td>¥89.00</td><td>3</td><td style="color:red">缺货</td><td><a href="#">编辑</a> <a href="#" style="color:red">删除</a></td></tr>
+        <tr><td>1003</td><td>A4打印纸</td><td>办公用品</td><td>¥25.00</td><td>500</td><td>正常</td><td><a href="#">编辑</a> <a href="#" style="color:red">删除</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

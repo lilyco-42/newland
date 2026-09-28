@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>森林火灾监控系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Microsoft YaHei", sans-serif; background: #0d1117; color: #e6e6e6; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ff4444; }
+        .header h1 { font-size: 22px; color: #ff4444; }
+        .header .time { font-size: 14px; color: #aaa; }
+        .main { display: flex; padding: 15px; gap: 15px; height: calc(100vh - 70px); }
+        .left-panel { flex: 2; display: flex; flex-direction: column; gap: 15px; }
+        .right-panel { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+        .card { background: #161b22; border-radius: 10px; padding: 15px; border: 1px solid #30363d; }
+        .card h2 { color: #ff4444; font-size: 15px; margin-bottom: 12px; border-bottom: 1px solid #30363d; padding-bottom: 8px; }
+        .zone-map { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .zone { height: 80px; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; transition: all 0.3s; border: 2px solid transparent; }
+        .zone.safe { background: #0d2818; border-color: #238636; color: #56d364; }
+        .zone.warning { background: #2d1b00; border-color: #d29922; color: #e3b341; }
+        .zone.danger { background: #3d0c0c; border-color: #da3633; color: #ff7b72; animation: pulse 1.5s infinite; }
+        .zone .name { font-weight: bold; font-size: 14px; }
+        .zone .temp { font-size: 18px; font-weight: bold; margin: 3px 0; }
+        .zone .smoke { font-size: 11px; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .gauge-row { display: flex; gap: 10px; }
+        .gauge { flex: 1; background: #0d1117; border-radius: 8px; padding: 12px; text-align: center; }
+        .gauge .value { font-size: 28px; font-weight: bold; }
+        .gauge .label { font-size: 11px; color: #8b949e; margin-top: 3px; }
+        .gauge .bar { height: 6px; border-radius: 3px; background: #30363d; margin-top: 8px; overflow: hidden; }
+        .gauge .bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+        .alert-list { max-height: 200px; overflow-y: auto; }
+        .alert-item { display: flex; align-items: center; padding: 8px; border-radius: 6px; margin-bottom: 6px; font-size: 12px; }
+        .alert-item.critical { background: #3d0c0c; border-left: 3px solid #da3633; }
+        .alert-item.warning { background: #2d1b00; border-left: 3px solid #d29922; }
+        .alert-item.info { background: #0c2d6b; border-left: 3px solid #388bfd; }
+        .alert-item .icon { font-size: 18px; margin-right: 10px; }
+        .alert-item .text { flex: 1; }
+        .alert-item .time { color: #8b949e; font-size: 11px; }
+        .stats-row { display: flex; gap: 10px; }
+        .stat-box { flex: 1; background: #0d1117; border-radius: 8px; padding: 12px; text-align: center; }
+        .stat-box .num { font-size: 24px; font-weight: bold; }
+        .stat-box .label { font-size: 11px; color: #8b949e; }
+        .history-chart { height: 120px; position: relative; }
+        .chart-bar { position: absolute; bottom: 0; width: 3%; background: #ff4444; border-radius: 2px 2px 0 0; transition: height 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>&#127961; 森林火灾监控系统</h1>
+        <div class="time" id="currentTime"></div>
+    </div>
+    <div class="main">
+        <div class="left-panel">
+            <div class="card">
+                <h2>&#127758; 监控区域地图</h2>
+                <div class="zone-map" id="zoneMap"></div>
+            </div>
+            <div class="card" style="flex:1">
+                <h2>&#128200; 温度趋势 (24小时)</h2>
+                <div class="history-chart" id="historyChart"></div>
+            </div>
+        </div>
+        <div class="right-panel">
+            <div class="card">
+                <h2>&#128202; 实时数据</h2>
+                <div class="gauge-row">
+                    <div class="gauge">
+                        <div class="value" style="color:#ff4444" id="avgTemp">32.5°C</div>
+                        <div class="label">平均温度</div>
+                        <div class="bar"><div class="bar-fill" style="width:65%;background:#ff4444"></div></div>
+                    </div>
+                    <div class="gauge">
+                        <div class="value" style="color:#d29922" id="avgSmoke">28.3</div>
+                        <div class="label">平均烟雾</div>
+                        <div class="bar"><div class="bar-fill" style="width:28%;background:#d29922"></div></div>
+                    </div>
+                </div>
+                <div class="stats-row" style="margin-top:10px">
+                    <div class="stat-box"><div class="num" style="color:#238636" id="safeCount">10</div><div class="label">安全区域</div></div>
+                    <div class="stat-box"><div class="num" style="color:#d29922" id="warnCount">4</div><div class="label">预警区域</div></div>
+                    <div class="stat-box"><div class="num" style="color:#da3633" id="dangerCount">2</div><div class="label">危险区域</div></div>
+                </div>
+            </div>
+            <div class="card" style="flex:1">
+                <h2>&#128680; 报警信息</h2>
+                <div class="alert-list" id="alertList"></div>
+            </div>
+            <div class="card">
+                <h2>&#128736; 系统控制</h2>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    <button onclick="toggleAlert()" style="flex:1;padding:8px;border:none;border-radius:6px;background:#da3633;color:white;cursor:pointer;font-size:12px">静音报警</button>
+                    <button onclick="exportData()" style="flex:1;padding:8px;border:none;border-radius:6px;background:#238636;color:white;cursor:pointer;font-size:12px">导出数据</button>
+                    <button onclick="refreshAll()" style="flex:1;padding:8px;border:none;border-radius:6px;background:#388bfd;color:white;cursor:pointer;font-size:12px">刷新数据</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var zones = [
+            {name:"A区-松林",temp:28,smoke:15,status:"safe"},
+            {name:"B区-竹林",temp:35,smoke:45,status:"warning"},
+            {name:"C区-灌木",temp:42,smoke:82,status:"danger"},
+            {name:"D区-草地",temp:26,smoke:12,status:"safe"},
+            {name:"E区-混合林",temp:38,smoke:55,status:"warning"},
+            {name:"F区-阔叶林",temp:24,smoke:8,status:"safe"},
+            {name:"G区-针叶林",temp:30,smoke:22,status:"safe"},
+            {name:"H区-湿地",temp:22,smoke:5,status:"safe"},
+            {name:"I区-山坡",temp:45,smoke:90,status:"danger"},
+            {name:"J区-山谷",temp:27,smoke:18,status:"safe"},
+            {name:"K区-溪边",temp:23,smoke:10,status:"safe"},
+            {name:"L区-高地",temp:33,smoke:38,status:"warning"},
+            {name:"M区-林场",temp:29,smoke:20,status:"safe"},
+            {name:"N区-公路旁",temp:36,smoke:42,status:"warning"},
+            {name:"O区-北坡",temp:31,smoke:25,status:"safe"},
+            {name:"P区-南坡",temp:25,smoke:9,status:"safe"}
+        ];
+        var alerts = [
+            {level:"critical",icon:"&#128680;",text:"C区-灌木 温度42°C 烟雾82 超过危险阈值!",time:"2分钟前"},
+            {level:"critical",icon:"&#128680;",text:"I区-山坡 温度45°C 烟雾90 火灾风险极高!",time:"5分钟前"},
+            {level:"warning",icon:"&#9888;",text:"B区-竹林 烟雾浓度上升至45",time:"12分钟前"},
+            {level:"warning",icon:"&#9888;",text:"E区-混合林 温度持续升高至38°C",time:"18分钟前"},
+            {level:"info",icon:"&#8505;",text:"系统已自动开启C区喷淋系统",time:"20分钟前"},
+            {level:"warning",icon:"&#9888;",text:"L区-高地 温度33°C 需持续关注",time:"25分钟前"},
+            {level:"info",icon:"&#8505;",text:"消防队伍已接到通知正在赶往C区",time:"30分钟前"}
+        ];
+        function renderZones(){
+            var map=document.getElementById("zoneMap");
+            var html="";
+            for(var i=0;i<zones.length;i++){
+                var z=zones[i];
+                html+='<div class="zone '+z.status+'" onclick="showZoneDetail('+i+')">';
+                html+='<div class="name">'+z.name+'</div>';
+                html+='<div class="temp">'+z.temp+'°C</div>';
+                html+='<div class="smoke">烟雾:'+z.smoke+'</div></div>';
+            }
+            map.innerHTML=html;
+        }
+        function renderAlerts(){
+            var list=document.getElementById("alertList");
+            var html="";
+            for(var i=0;i<alerts.length;i++){
+                var a=alerts[i];
+                html+='<div class="alert-item '+a.level+'">';
+                html+='<div class="icon">'+a.icon+'</div>';
+                html+='<div class="text">'+a.text+'</div>';
+                html+='<div class="time">'+a.time+'</div></div>';
+            }
+            list.innerHTML=html;
+        }
+        function renderChart(){
+            var chart=document.getElementById("historyChart");
+            var html="";
+            for(var i=0;i<32;i++){
+                var h=Math.random()*80+20;
+                var color=h>70?"#da3633":h>50?"#d29922":"#238636";
+                html+='<div class="chart-bar" style="left:'+(i*3.1)+'%;height:'+h+'%;background:'+color+'"></div>';
+            }
+            chart.innerHTML=html;
+        }
+        function showZoneDetail(idx){
+            var z=zones[idx];
+            alert(z.name+'\n温度: '+z.temp+'°C\n烟雾: '+z.smoke+'\n状态: '+z.status);
+        }
+        function toggleAlert(){alert("报警已静音/取消静音")}
+        function exportData(){alert("数据已导出到CSV文件")}
+        function refreshAll(){
+            for(var i=0;i<zones.length;i++){
+                zones[i].temp+=Math.floor(Math.random()*5-2);
+                zones[i].smoke+=Math.floor(Math.random()*10-5);
+                zones[i].temp=Math.max(15,Math.min(60,zones[i].temp));
+                zones[i].smoke=Math.max(0,Math.min(100,zones[i].smoke));
+                if(zones[i].smoke>80||zones[i].temp>40)zones[i].status="danger";
+                else if(zones[i].smoke>40||zones[i].temp>33)zones[i].status="warning";
+                else zones[i].status="safe";
+            }
+            renderZones();
+            renderChart();
+            var safe=0,warn=0,danger=0;
+            for(var i=0;i<zones.length;i++){
+                if(zones[i].status==="safe")safe++;
+                else if(zones[i].status==="warning")warn++;
+                else danger++;
+            }
+            document.getElementById("safeCount").textContent=safe;
+            document.getElementById("warnCount").textContent=warn;
+            document.getElementById("dangerCount").textContent=danger;
+        }
+        function updateTime(){
+            var now=new Date();
+            document.getElementById("currentTime").textContent=now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate()+' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+        }
+        renderZones();renderAlerts();renderChart();updateTime();
+        setInterval(updateTime,1000);
+        setInterval(refreshAll,5000);
+    </script>
+</body>
+</html>

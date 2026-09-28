@@ -1,0 +1,13 @@
+{
+  "cloud": {
+    "base_url": "http://192.168.0.138:8080/",
+    "username": "13329262958",
+    "password": "qwe123456789",
+    "rfid_tag": "RFID",
+    "red_light_device_id": 0,
+    "red_light_tag": "kk_alarm",
+    "poll_sec": 0.8
+  },
+  "images_dir": "images",
+  "export_dir": "导出"
+}

@@ -1,0 +1,44 @@
+【第2套·子任务1-8 数据库运维查询与优化】操作步骤
+================================================
+
+环境：在 Ubuntu 上安装 MySQL，使 Ubuntu 终端能访问，并用 Navicat 远程连接
+
+1. 安装 MySQL
+   sudo apt update
+   sudo apt install -y mysql-server
+   sudo systemctl enable --now mysql
+
+2. 为 MySQL 配置远程访问（任何 IP 客户端都能访问）
+   sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+   将 bind-address = 127.0.0.1 改为 bind-address = 0.0.0.0
+   保存退出后重启：sudo systemctl restart mysql
+   登录 MySQL 授权远程访问：
+   sudo mysql
+   GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root密码' WITH GRANT OPTION;
+   FLUSH PRIVILEGES;
+   → 截图 A-16-1.jpg（配置远程访问界面：mysqld.cnf 的 bind-address + 授权语句）
+
+3. 在 Ubuntu 终端登录 MySQL
+   mysql -u root -p
+
+4. 查看 MySQL 版本信息
+   SELECT VERSION();
+   （或终端执行 mysql --version）
+   → 截图 A-16-2.jpg
+
+5. 显示所有可用字符集的排序方式
+   SHOW COLLATION;
+   → 截图 A-16-3.jpg
+
+6. 显示当前数据库系统最大连接数
+   SHOW VARIABLES LIKE 'max_connections';
+   → 截图 A-16-4.jpg
+
+7. 显示当前数据库系统表级锁竞争状态
+   SHOW STATUS LIKE 'Table_locks%';
+   → 截图 A-16-5.jpg
+
+8. 使用 Navicat 正确连接 MySQL
+   主机：Ubuntu 的 IP（hostname -I 查询），端口 3306，用户 root，填上一步设置的密码
+   连接成功左侧可见数据库列表
+   → 截图 A-16-6.jpg（图中能看到数据库列表）

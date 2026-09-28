@@ -1,0 +1,23 @@
+套1 赛场待办清单
+==================
+日期：____
+
+模块一：
+□ 1-6 Windows Server 组策略配置（截图 A-16-x.jpg）
+□ 1-7 Ubuntu 系统维护（截图 A-16-x.jpg）
+□ 1-8 MySQL/SQL Server 数据库运维（截图 A-16-x.jpg）
+□ 1-9 NB-IoT/ZigBee/LoRa 硬件维护（截图 A-17-x.jpg）
+
+模块二：
+□ 2-1 前端界面设计（HTML/Android）
+□ 2-2 嵌入式代码烧录（CC2530/ZigBee）
+□ 2-3 通信模块调试（LoRa/NB-IoT）
+□ 2-4 Android APP编译发布
+□ 2-5 Android APP真机测试
+□ 2-6 Python应用运行验证（门闸环境监控系统）
+□ 2-7 Python应用运行验证（商品管理系统）
+□ exe打包验证（复制到U盘）
+
+提交：
+□ 按目录规划整理U盘
+□ 检查所有文件完整性

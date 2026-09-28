@@ -1,0 +1,41 @@
+套3 模块一 操作步骤 1-6至1-9
+================================
+日期：____
+
+一、1-6 Windows Server 2016 组策略配置
+  步骤：
+  1. 打开服务器管理器，添加Active Directory域服务角色
+  2. 运行dcpromo.exe提升为域控制器
+  3. 打开组策略管理控制台(GPMC)
+  4. 创建新的GPO并链接到目标OU
+  5. 编辑GPO：配置密码策略（最小长度、复杂度要求）
+  6. 配置软件分发策略
+  7. 配置文件重定向策略
+  8. 在客户端验证策略应用结果
+  截图：A-16-1.jpg至A-16-3.jpg
+
+二、1-7 Ubuntu系统维护
+  步骤：
+  1. sudo apt-get update && sudo apt-get upgrade
+  2. sudo systemctl enable/start/stop nginx
+  3. sudo ufw allow 22/tcp
+  4. sudo ufw enable
+  5. 查看系统日志：sudo journalctl -u nginx
+  截图：A-16-4.jpg至A-16-6.jpg
+
+三、1-8 MySQL数据库运维
+  步骤：
+  1. 登录MySQL：mysql -u root -p
+  2. 创建备份：mysqldump -u root -p --all-databases > backup.sql
+  3. 配置binlog：编辑/etc/mysql/my.cnf
+  4. 使用Navicat连接数据库
+  5. 执行SQL查询验证
+  截图：A-16-7.jpg
+
+四、1-9 IoT硬件维护
+  步骤：
+  1. 连接CC2530开发板，配置串口通信
+  2. 烧录ZigBee协调器固件
+  3. 连接LoRa模块，配置通信参数
+  4. 验证传感器数据采集
+  截图：A-17-1.jpg至A-17-2.jpg

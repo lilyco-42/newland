@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>农业大棚监控</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei",sans-serif; background:#f0f2f5; }
+.header { background:#52c41a; color:white; padding:16px 24px; }
+.header h1 { font-size:20px; }
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; padding:20px; }
+.card { background:white; border-radius:8px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.1); }
+.card h3 { color:#333; margin-bottom:12px; font-size:16px; }
+.value { font-size:32px; font-weight:bold; color:#1890ff; }
+.unit { font-size:14px; color:#999; }
+.bar { height:8px; background:#f0f0f0; border-radius:4px; margin-top:8px; }
+.bar-fill { height:100%; border-radius:4px; transition:width .3s; }
+.device { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f0f0f0; }
+.device:last-child { border:none; }
+.switch { width:48px; height:24px; border-radius:12px; background:#ddd; position:relative; cursor:pointer; }
+.switch.on { background:#52c41a; }
+.switch::after { content:''; width:20px; height:20px; border-radius:50%; background:white; position:absolute; top:2px; left:2px; transition:left .3s; }
+.switch.on::after { left:26px; }
+</style>
+</head>
+<body>
+<div class="header"><h1>🌾 智能农业大棚监控</h1></div>
+<div class="grid">
+  <div class="card">
+    <h3>🌡️ 空气温度</h3>
+    <div class="value">25.3 <span class="unit">°C</span></div>
+    <div class="bar"><div class="bar-fill" style="width:63%;background:#1890ff"></div></div>
+  </div>
+  <div class="card">
+    <h3>💧 空气湿度</h3>
+    <div class="value">62.5 <span class="unit">%</span></div>
+    <div class="bar"><div class="bar-fill" style="width:62%;background:#52c41a"></div></div>
+  </div>
+  <div class="card">
+    <h3>🌱 土壤湿度</h3>
+    <div class="value">45.2 <span class="unit">%</span></div>
+    <div class="bar"><div class="bar-fill" style="width:45%;background:#faad14"></div></div>
+  </div>
+  <div class="card">
+    <h3>☀️ 光照强度</h3>
+    <div class="value">5200 <span class="unit">Lux</span></div>
+    <div class="bar"><div class="bar-fill" style="width:52%;background:#faad14"></div></div>
+  </div>
+  <div class="card">
+    <h3>🫧 CO2浓度</h3>
+    <div class="value">420 <span class="unit">ppm</span></div>
+    <div class="bar"><div class="bar-fill" style="width:42%;background:#1890ff"></div></div>
+  </div>
+  <div class="card">
+    <h3>🔧 设备控制</h3>
+    <div class="device"><span>风扇</span><div class="switch" onclick="this.classList.toggle('on')"></div></div>
+    <div class="device"><span>加热器</span><div class="switch" onclick="this.classList.toggle('on')"></div></div>
+    <div class="device"><span>灌溉泵</span><div class="switch" onclick="this.classList.toggle('on')"></div></div>
+    <div class="device"><span>补光灯</span><div class="switch" onclick="this.classList.toggle('on')"></div></div>
+  </div>
+</div>
+</body>
+</html>

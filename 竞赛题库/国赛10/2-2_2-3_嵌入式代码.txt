@@ -1,0 +1,50 @@
+【第10套·模块二 2-2 / 2-3 嵌入式代码骨架】
+================================================
+
+■ 2-2 CC2530 ZigBee 风扇控制系统（两块黑色 ZigBee 开发板 A、B）
+  板 A（发送端：SW1 控制）：
+    static uint8 fan_cmd = 0x00;          // 0x01 开 / 0x00 停
+    if (SW1 按下) {
+        fan_cmd = (fan_cmd == 0x00) ? 0x01 : 0x00;   // 取反
+        myApp_SendMessage(&fan_cmd, 1, ADDR_B);
+        delay_ms(50);                                 // 简单去抖
+    }
+
+  板 B（接收端：继电器 → 风扇）：
+    void myApp_MessageMSGCB(afIncomingMSGPacket_t *pkt) {
+        uint8 cmd = pkt->cmd.Data[0];
+        RELAY_PIN = (cmd == 0x01) ? 1 : 0;   // P1_0 控制继电器
+    }
+
+  说明：继电器带三极管驱动、续流二极管；两端同 PAN ID/短地址配对。
+
+■ 2-3 LoRa 环境监控（主控 + 节点 + 温湿度光照传感器 + LCD）
+  任务：4 个界面：欢迎界面 → 温度界面 → 湿度界面 → 光照界面；
+        节点采集数据经 LoRa 发给主控显示；
+        LoRa 主控短按 SW2 切换界面（10ms 去抖；按压过程中不能快速切换）。
+
+  主控主循环（骨架）：
+    static uint8 page = 0;                 // 0 欢迎, 1 温度, 2 湿度, 3 光照
+    static uint8 key_release = 1;
+    while (1) {
+        if (SW2 按下 && key_release) {     // 按下检测 + 去抖
+            delay_ms(10);                  // 10ms 去抖
+            if (SW2 仍按下) {
+                page = (page + 1) % 4;     // 0->1->2->3->0
+                key_release = 0;
+            }
+        }
+        if (SW2 松开) key_release = 1;
+
+        switch (page) {
+            case 0: lcd_show("欢迎使用 LoRa 环境监控"); break;
+            case 1: lcd_show("温度 %d.%d ℃", t1, t2); break;   // 节点实时值
+            case 2: lcd_show("湿度 %d%%", h); break;
+            case 3: lcd_show("光照 %d lux", light); break;
+        }
+    }
+
+  说明：节点通过 LoRa 定时上报（如每 1s 一组 温度/湿度/光照）；
+        主控收到后更新全局变量并刷新当前页。
+
+  交付：工程源码打包为"LoRa环境监控.rar"，拷入 题3。

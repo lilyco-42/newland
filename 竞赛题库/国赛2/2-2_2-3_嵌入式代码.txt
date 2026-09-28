@@ -1,0 +1,81 @@
+【第2套·模块二 2-2 / 2-3 嵌入式代码骨架】
+================================================
+
+■ 2-2 按键控制程序（1 个蓝色 ZigBee 节点盒，安装到 B-Q3，小辣椒天线贴标签 E-1）
+  任务：通电或重置 → LED1、LED2 都不亮；
+        长按 SW1（不松开）→ LED1 亮，LED2 灭；松开 SW1 → LED1、LED2 都常亮；
+        双击 SW1 → LED1 实现呼吸灯效果，LED2 保持熄灭；
+        再次双击 SW1 → LED1 维持当前亮度不再变化，LED2 继续保持熄灭。
+
+  骨架（Z-Stack 工程，主循环）：
+    static uint8  mode   = 0;      // 0 常亮模式 / 1 呼吸模式 / 2 保持模式
+    static uint16 press_tick = 0;  // 按下持续计时（1ms 计数）
+    static uint16 last_press = 0;  // 上一次按下时间
+    static uint8  sw1_pressed = 0;
+    static uint16 breathe = 0;     // 呼吸相位(0~200)
+
+    void init(void){
+        LED1 = 0; LED2 = 0;        // 通电/重置：两灯都不亮
+    }
+
+    void key_scan(void){           // 每 1ms 调用或中断标志查询
+        if (SW1 按下)  { press_tick++; }
+        else           { if (press_tick) 处理松开事件; press_tick = 0; }
+    }
+
+    松开 SW1 时：
+        if (press_tick >= 1000) {            // 长按后松开：回到常亮
+            mode = 0; LED1 = 1; LED2 = 1;    // 双常亮
+        } else {                             // 短按：判断单击/双击
+            if (现在时间 - last_press <= 300ms) {   // 构成双击
+                if (mode == 1) mode = 2;           // 再双击：保持当前亮度
+                else           mode = 1;           // 双击：进入呼吸灯
+            }
+            last_press = 现在时间;
+        }
+
+    长按进行中（press_tick >= 1000 且未松开）：
+        LED1 = 1; LED2 = 0;
+
+    LED 执行（每 5ms PWM 刷新）：
+        if (mode == 1) {                 // 呼吸灯：正弦/三角波占空比
+            breathe = (breathe + 1) % 200;
+            LED1_PWM = breathe <= 100 ? breathe : 200 - breathe;   // 0~100%
+            LED2 = 0;
+        } else if (mode == 2) {          // 保持当前亮度：不再更新 LED1_PWM
+            LED2 = 0;
+        }
+
+  说明：呼吸灯用定时器 PWM 实现（如 CC2530 Timer1 输出）；双击判定用 300ms 窗口。
+  交付：节点盒装 B-Q3、标签“E-1”、通电等待评分；完整工程代码存 提交资料\模块二\题2。
+
+■ 2-3 LoRa 环境监控系统（1 块 LoRa 模块 + 温湿度光照传感器）
+  1. 显示采集值（不带小数）；光照度公式：
+        LightLux = pow(10, ((1.78 - log10(33 / voltage - 10)) / 0.6))
+     其中 voltage 为电压(V)
+  2. 光照度 < 100 lux → LoRa 板 LED2 亮；反之 LED2 灭
+  3. LoRa 模块 USB 连工作站电脑，波特率 115200；网络调试工具默认 Hex 方式传输
+  4. ASCII 数据格式：temperature:27|humidity:36|light:1210
+     HEX  数据格式：74 65 6D 70 65 72 61 74 75 72 65 3A 32 37 7C 68 75 6D 69 64 69 74 79 3A 33 36 7C 6C 69 67 68 74 3A 31 32 31 30
+  5. 按压 SW2 → ASCII 码方式传输；松开 SW2 → 恢复 HEX 码方式传输
+
+  骨架（主循环）：
+    while (1) {
+        read_thl(&temp, &hum, &volt);            // 读温湿度、电压
+        lux = pow(10, ((1.78 - log10(33.0 / volt - 10)) / 0.6));   // 照度
+        LED2 = (lux < 100) ? 1 : 0;
+        lcd_or_uart((int)temp, (int)hum, (int)lux);
+
+        if (SW2 按住) {                          // ASCII 方式
+            uart_send("temperature:%d|humidity:%d|light:%d",
+                      (int)temp, (int)hum, (int)lux);
+        } else {                                 // HEX 方式：发送 ASCII 串的十六进制字节
+            uart_send_hex("temperature:%d|humidity:%d|light:%d",
+                          (int)temp, (int)hum, (int)lux);
+        }
+        delay(1000);
+    }
+
+  说明：HEX 方式即把 ASCII 文本每个字符按字节以 Hex 发送（网络调试工具 Hex 显示）。
+  交付：LoRa 板贴标签 C-3，USB 连工作站，打开网络调试工具接收显示；
+        工程源码打包为“LoRa环境监控系统.rar”。

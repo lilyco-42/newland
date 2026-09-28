@@ -1,0 +1,5 @@
+# 门禁系统 依赖
+requests
+openpyxl
+Pillow
+winsound  # Windows 内置模块，无需安装

@@ -1,0 +1,41 @@
+套5 模块一 操作步骤 1-6至1-9
+================================
+日期：____
+
+一、1-6 虚拟机安装与配置
+  步骤：
+  1. 安装VMware Workstation
+  2. 创建虚拟机，分配4GB内存、40GB硬盘
+  3. 安装Windows Server 2016
+  4. 配置网络模式(NAT/桥接)
+  5. 安装VMware Tools
+  6. 创建快照用于系统还原
+  7. 配置共享文件夹
+  截图：A-16-1.jpg至A-16-3.jpg
+
+二、1-7 Ubuntu服务器部署
+  步骤：
+  1. 安装Ubuntu Server 22.04（最小化安装）
+  2. 配置静态IP: sudo nano /etc/netplan/01-config.yaml
+  3. 配置DNS: sudo nano /etc/resolv.conf
+  4. 安装nginx: sudo apt-get install nginx
+  5. 配置开机自启: sudo systemctl enable nginx
+  6. 配置rsyslog: sudo nano /etc/rsyslog.conf
+  7. 配置logrotate: sudo nano /etc/logrotate.conf
+  截图：A-16-4.jpg至A-16-6.jpg
+
+三、1-8 MySQL数据库运维
+  步骤：
+  1. 登录MySQL数据库
+  2. 创建存储过程sp_FireAlert
+  3. 测试存储过程调用
+  4. 使用Navicat管理数据库
+  截图：A-16-7.jpg
+
+四、1-9 IoT硬件维护
+  步骤：
+  1. 连接CC2530 ZigBee模块
+  2. 烧录协调器固件
+  3. 连接LoRa GPS模块
+  4. 验证数据采集与传输
+  截图：A-17-1.jpg至A-17-2.jpg

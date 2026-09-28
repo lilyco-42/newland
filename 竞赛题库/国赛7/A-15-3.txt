@@ -1,0 +1,3 @@
+1. SQL Server维护计划：使用SQL Server Management Studio创建维护计划，设置自动备份、索引重建、数据清理。
+2. 数据库收缩：定期收缩数据库释放空间，优化存储性能。
+3. 监控：使用SQL Server Profiler跟踪查询性能，分析慢查询。

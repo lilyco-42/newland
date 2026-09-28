@@ -1,0 +1,12 @@
+{
+  "serial": {
+    "port": "COM6",
+    "baud": 115200,
+    "enabled": true
+  },
+  "threshold": 50,
+  "sample_interval_sec": 5,
+  "chart_points": 6,
+  "export_rows": 20,
+  "export_dir": "导出"
+}

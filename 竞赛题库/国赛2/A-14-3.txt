@@ -1,0 +1,2 @@
+错误原因：路径中存在空格，系统将此路径认为是两部分。
+正确语句：del "C:\Program Files\test\my.txt"

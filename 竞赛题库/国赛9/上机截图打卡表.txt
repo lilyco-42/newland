@@ -1,0 +1,33 @@
+【第9套 · 上机截图打卡表】（模块一 1-6~1-9）
+================================================
+1-6 Windows（服务器）：
+□ A-15-1.jpg   组策略把 administrator 重命名为 newadmin
+   （gpedit.msc → 计算机配置→Windows设置→安全设置→本地策略→安全选项→“账户：重命名系统管理员账户”）
+□ A-15-2.jpg   hosts 文件绑定：192.168.0.138 【指定域名】（notepad C:\Windows\System32\drivers\etc\hosts）
+□ A-15-3.jpg   tracert 192.168.0.138 执行结果
+
+1-7 Ubuntu（iotuser/iotuser，先开 root SSH：PermitRootLogin yes + restart sshd）：
+□ A-16-1.jpg   Xshell 以 root 登录 Ubuntu（体现登录端 IP）
+■ A-16-2.txt   tar -zcvf xxx.tar.gz aaa bbb（已生成）
+■ A-16-3.txt   chmod -R 777 bbb（已生成）
+□ A-16-4.jpg   chmod 后 ls -l bbb 查看文件列表和权限
+■ A-16-5.txt   cat /etc/os-release（已生成）
+■ A-16-6.txt   ulimit -a（已生成）
+
+1-8 MySQL（Windows mysql-5.7.36，root/123456）：与第4套 1-8 相同
+□ A-17-1.jpg   Windows 服务列表 MySQL“正在运行”
+□ A-17-2.jpg   Navicat 成功连接 MySQL
+□ A-17-3.jpg   Navicat 以“详细信息”查看 nleedge 数据表
+■ A-17-4.sql   查询所有数据表和每个表记录数（已生成）
+□ A-17-5.jpg   Navicat 执行 A-17-4.sql 的语句和结果
+
+1-9 硬件（联动控制器 TCP 云平台联调）：
+□ A-18-1.jpg   联动控制器拨片设备地址=16（网络摄像头拍摄拨片位置）
+□ A-18-2.jpg   NetAssist TCP Client 连接 192.168.0.138:8600（建立通讯）
+□ A-18-3.jpg   发心跳包 $#AT# 收到反馈（测试服务器在线）
+□ A-18-4.jpg   发 CONN_REQ 普通鉴权请求，收到两条鉴权成功反馈
+□ A-18-5.jpg   云平台开关 zigbee 风扇2 → 收到 CMD_REQ（记住 cmdid）→ 回响应报文
+□ A-18-6.jpg   云平台“历史命令”页显示 CMDID 且“设备已响应”
+※ 最后重新开启中心网关电源
+
+◇ 1-10 职业素养：现场执行

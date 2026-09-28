@@ -1,0 +1,31 @@
+套1 提交资料 模块二 目录规划
+================================
+U盘结构：
+U盘/
+├── 模块二/
+│   ├── 2-1_商品管理界面/
+│   │   └── product_ui.html
+│   ├── 2-6_门闸环境监控/
+│   │   ├── 门闸环境监控.py
+│   │   ├── requirements.txt
+│   │   └── dist/门闸环境监控系统.exe
+│   ├── 2-7_商品管理/
+│   │   ├── 商品管理.py
+│   │   ├── requirements.txt
+│   │   └── dist/商品管理系统.exe
+│   ├── exe/
+│   │   ├── 门闸环境监控系统.exe
+│   │   └── 商品管理系统.exe
+│   └── 2-2_2-3_嵌入式代码.txt
+└── 模块一/
+    └── 截图/
+        └── A-16-x.jpg, A-17-x.jpg
+
+打包命令（在Python 3.6 venv中执行）：
+cd 2-6_门闸环境监控
+D:\源码\2-6_监控管理系统\.venv\Scripts\pyinstaller.exe --onefile --name 门闸环境监控系统 门闸环境监控.py
+copy dist\门闸环境监控系统.exe ..\..\exe\
+
+cd ..\2-7_商品管理
+D:\源码\2-6_监控管理系统\.venv\Scripts\pyinstaller.exe --onefile --name 商品管理系统 商品管理.py
+copy dist\商品管理系统.exe ..\..\exe\

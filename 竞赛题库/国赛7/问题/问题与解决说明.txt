@@ -1,0 +1,35 @@
+=== 子任务1-8 数据库运维查询与优化 —— 问题与解决记录 ===
+
+【问题是什么】
+1. SSMS 连接本地 SQL Server (Newland-PC) 失败：
+   "在与 SQL Server 建立连接时出现与网络相关的或特定于实例的错误...
+    provider:命名管道提供程序, error:40, 错误:53"
+   根因：SQL Server 服务端"命名管道(Named Pipes)"协议被禁用，
+   SSMS 客户端默认按 np 协议尝试连接，故握手失败。
+   (WMI 核实: Shared Memory=True, Named Pipes=False, TCP/IP=True)
+
+2. 中文路径"U盘资料/test.sql"被老版本 sqlcmd 按 GBK 解析为乱码，找不到文件。
+3. SQL Server 2008 R2 不支持 CONCAT() 函数；ROWCOUNT 是保留字不能直接做列别名。
+
+【完成情况】
+- 通过 sqlcmd -S localhost -E -f 65001 成功还原 nleedge 库及三张表
+  (AD_Accounts / AD_Roles / AD_AccountsRole)。
+- 删除前记录数: AD_Accounts=10, AD_Roles=5, AD_AccountsRole=14
+  (其中 Id=12/13/14 为 AccountId=11/12/13 的孤儿关系数据)。
+- count.sql: 用 UNION ALL 一次统计三张表记录数。
+- del.sql:   用 NOT EXISTS 关联子查询删除孤儿数据
+             (优化器改写为 Left Anti Semi Join，走 AD_Accounts.AccountId
+              主键 Index Seek，比 NOT IN 性能更好且无 NULL 语义陷阱)，
+             包在事务里，删除后自动复算。
+
+【解决后结果】
+- 成功删除 3 条孤儿关系数据。
+- 删除后记录数: AD_Accounts=10, AD_Roles=5, AD_AccountsRole=11。
+- 交付文件:
+    count.sql          统计三表记录数 SQL
+    del.sql            删除孤儿数据 SQL
+    A-17-1.jpg         删除后 SQL 语句与执行结果截图
+
+【附：SSMS 连接修复方法】
+在 SSMS 连接对话框点"选项(O)>>" -> "连接属性" -> 网络协议选 "TCP/IP"，
+服务器名填 127.0.0.1 即可连接；或在服务器名前加 tcp: 前缀。

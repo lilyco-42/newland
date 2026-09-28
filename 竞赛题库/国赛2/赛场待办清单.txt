@@ -1,0 +1,38 @@
+【第2套 · 赛场待办清单】
+========================
+以下为本机无法自动完成、需在赛场实物操作的全部项目。逐项完成后打 ■。
+
+━━━ 模块一：截图（A-xx）━━━
+■ A-14-1.jpg  组策略 4 项启用截图（gpedit.msc → 红圈圈4处修改项）
+■ A-15-1.jpg  虚拟机快照"Ubuntu竞赛初始版本"（导入后立即做）
+■ A-15-2.jpg  Xshell 以 root 登录 Ubuntu（体现登录端 IP）
+■ A-15-4.jpg  chmod -R 777 /home/iotuser/Files 授权前后 ls -l 对比
+■ A-15-5.jpg  sudo dpkg -i vscode 安装完成终端界面（红圈命令行）
+■ A-15-6.jpg  Ubuntu 桌面全部应用图标（含 vscode 快捷方式）
+■ A-15-7.jpg  vscode 打开"关于"信息窗口
+■ A-16-1.jpg  mysqld.cnf bind-address=0.0.0.0 + GRANT 'root'@'%' 授权
+■ A-16-2.jpg  SELECT VERSION();
+■ A-16-3.jpg  SHOW COLLATION;
+■ A-16-4.jpg  SHOW VARIABLES LIKE 'max_connections';
+■ A-16-5.jpg  SHOW STATUS LIKE 'Table_locks%';
+■ A-16-6.jpg  Navicat 成功连接 Ubuntu MySQL（图含数据库列表）
+■ A-17-1.jpg  NB-IoT AT+ICCID（或 AT+CIMI）响应帧
+■ A-17-2.jpg  NB-IoT ATI（或 AT+CGMM）响应帧
+
+━━━ 模块一：硬件安装 ━━━
+■ 2-2  ZigBee 按键程序节点盒，贴标签 E-1，B-Q3
+■ 2-3  LoRa 环境监控系统节点贴 C-3，USB 连工作站
+
+━━━ 模块二：Android 编译发布 ━━━
+■ 2-4  远程监控.apk（复用 D:\源码\2-4_远程监控 编译发布到 B-Q3）
+■ 2-5  环境监控.apk（复用 D:\源码\2-4_环境监控 编译发布到 B-Q3）
+       参数配置 C-4-1.txt 已生成，APK 签名后拷贝安装
+
+━━━ 模块二：exe 验证 ━━━
+□ 在服务器电脑桌面运行 钻井深度监测.exe 验证界面正常
+□ 在服务器电脑桌面运行 门禁系统.exe 验证界面正常（images 图片已打包）
+
+━━━ 说明 ━━━
+· exe 已在本机打包完成（模块二\exe\ 目录下）
+· 文本答案（A-14-2.txt / A-14-3.txt / A-15-3.txt）已生成
+· 操作指南：操作步骤-1-6~1-9 四份已生成

@@ -1,0 +1,372 @@
+========================================
+套3 嵌入式代码 - 智能停车场 + 室内环境控制
+========================================
+
+========================================
+2-2 ZigBee协调器代码 (CC2530 C51)
+========================================
+// ZigBee协调器 - 汇聚传感器数据并通过串口上传
+// 适用芯片: CC2530
+// 编译器: IAR Embedded Workbench for 8051
+
+#include <ioCC2530.h>
+#include <string.h>
+#include <stdio.h>
+
+// 定义串口通信波特率
+#define UART_BAUD_RATE 115200
+#define CLK_CUBE_RATE 32000000
+
+// 协议帧定义
+#define FRAME_HEAD 0xAA
+#define FRAME_TAIL 0x55
+#define CMD_SENSOR_DATA 0x01
+#define CMD_CTRL_CMD 0x02
+#define CMD_HEARTBEAT 0x03
+
+// 数据结构
+typedef struct {
+    uint8_t node_id;
+    uint8_t data_type;
+    uint16_t temp;
+    uint16_t humidity;
+    uint16_t light;
+    uint16_t reserved;
+} SensorData_t;
+
+typedef struct {
+    uint8_t head;
+    uint8_t cmd;
+    uint8_t len;
+    uint8_t data[32];
+    uint8_t tail;
+} ProtocolFrame_t;
+
+// 全局变量
+static SensorData_t g_sensorData;
+static uint8_t g_rxBuffer[64];
+static uint8_t g_rxIndex = 0;
+
+// 初始化系统时钟
+void SystemClockInit(void) {
+    CLKCONCMD &= ~0x40;
+    while(CLKCONCMD & 0x40);
+    CLKCONCMD &= ~0x07;
+    CLKCONCMD |= 0x02;
+    while((CLKCONSTA & 0x07) != 0x02);
+}
+
+// 初始化串口 (UART0)
+void UART0Init(void) {
+    PERCFG |= 0x00;
+    P0SEL |= 0x0C;
+    U0CSR |= 0x40;
+    U0GCR = 11;
+    U0BAUD = 216;
+    U0CSR |= 0x40;
+}
+
+// 串口发送字节
+void UART0SendByte(uint8_t dat) {
+    U0DBUF = dat;
+    while(!UTX0IF);
+    UTX0IF = 0;
+}
+
+// 串口发送字符串
+void UART0SendString(uint8_t *str, uint8_t len) {
+    uint8_t i;
+    for(i = 0; i < len; i++) {
+        UART0SendByte(str[i]);
+    }
+}
+
+// 发送协议帧
+void SendProtocolFrame(uint8_t cmd, uint8_t *data, uint8_t len) {
+    ProtocolFrame_t frame;
+    uint8_t i;
+    frame.head = FRAME_HEAD;
+    frame.cmd = cmd;
+    frame.len = len;
+    memcpy(frame.data, data, len);
+    frame.tail = FRAME_TAIL;
+    UART0SendByte(frame.head);
+    UART0SendByte(frame.cmd);
+    UART0SendByte(frame.len);
+    for(i = 0; i < len; i++) {
+        UART0SendByte(frame.data[i]);
+    }
+    UART0SendByte(frame.tail);
+}
+
+// 初始化ZigBee协议栈
+void ZigBeeInit(void) {
+    // 配置ZigBee协调器
+    // 设置PAN ID
+    uint16_t panId = 0x1234;
+    // 设置信道
+    uint8_t channel = 20;
+    // 初始化射频
+    RFIRQF0 &= ~0x40;
+    RFST = 0xE9;
+    RFST = 0xE8;
+    RFIRQF0 &= ~0x40;
+    RFIRQF1 &= ~0x40;
+    S1CON &= ~0x03;
+    S1CON |= 0x01;
+}
+
+// 处理接收到的传感器数据
+void ProcessSensorData(uint8_t *data, uint8_t len) {
+    if(len >= sizeof(SensorData_t)) {
+        memcpy(&g_sensorData, data, sizeof(SensorData_t));
+        // 通过串口上传至上位机
+        SendProtocolFrame(CMD_SENSOR_DATA, (uint8_t*)&g_sensorData, sizeof(SensorData_t));
+    }
+}
+
+// 处理控制命令
+void ProcessControlCommand(uint8_t *data, uint8_t len) {
+    // 将控制命令转发到对应的终端节点
+    // 通过ZigBee发送
+}
+
+// 主函数
+void main(void) {
+    SystemClockInit();
+    UART0Init();
+    ZigBeeInit();
+
+    // 主循环
+    while(1) {
+        // 检查是否有ZigBee数据
+        // 处理串口接收的命令
+        // 定期发送心跳包
+        // 延时等待
+    }
+}
+
+
+========================================
+2-3 LoRa温湿度传感器节点代码
+========================================
+// LoRa温湿度传感器节点 - 采集DHT11/AM2301数据并无线发送
+// 适用芯片: STM32F103C8T6 + SX1278 LoRa模块
+// 编译器: Keil MDK-ARM
+
+#include "stm32f10x.h"
+#include "dht11.h"
+#include "lora.h"
+#include "delay.h"
+#include "usart.h"
+#include <string.h>
+#include <stdio.h>
+
+// LoRa配置参数
+#define LORA_FREQUENCY 433000000
+#define LORA_BANDWIDTH 125000
+#define LORA_SPREADING_FACTOR 7
+#define LORA_TX_POWER 17
+#define LORA_NODE_ID 0x01
+
+// 发送间隔 (秒)
+#define SEND_INTERVAL 10
+
+// 数据包结构
+typedef struct {
+    uint8_t node_id;
+    uint8_t temp_int;
+    uint8_t temp_dec;
+    uint8_t humidity_int;
+    uint8_t humidity_dec;
+    uint16_t battery_mv;
+    uint8_t checksum;
+} Packet_t;
+
+// 全局变量
+static Packet_t g_packet;
+static uint32_t g_sendTimer = 0;
+
+// 系统时钟配置 (72MHz)
+void RCC_Configuration(void) {
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB |
+                           RCC_APB2Periph_USART1 | RCC_APB2Periph_SPI1, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2 | RCC_APB1Periph_TIM2, ENABLE);
+}
+
+// GPIO初始化
+void GPIO_Configuration(void) {
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    // LED指示灯
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+
+    // DHT11数据引脚
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+}
+
+// SPI初始化 (用于LoRa模块)
+void SPI1_Init(void) {
+    SPI_InitTypeDef SPI_InitStructure;
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+    SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+    SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
+    SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
+    SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
+    SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
+    SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
+    SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;
+    SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+    SPI_Init(SPI1, &SPI_InitStructure);
+    SPI_Cmd(SPI1, ENABLE);
+}
+
+// 读取DHT11温湿度
+uint8_t DHT11_Read(uint8_t *temp, uint8_t *humidity) {
+    uint8_t data[5];
+    uint8_t i, j;
+
+    // 起始信号
+    GPIO_SetBits(GPIOA, GPIO_Pin_5);
+    Delay_ms(2);
+    GPIO_ResetBits(GPIOA, GPIO_Pin_5);
+    Delay_ms(20);
+    GPIO_SetBits(GPIOA, GPIO_Pin_5);
+    Delay_us(30);
+
+    // 检查响应
+    if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_5)) return 1;
+    while(!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_5));
+    while(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_5));
+
+    // 读取40位数据
+    for(i = 0; i < 5; i++) {
+        data[i] = 0;
+        for(j = 0; j < 8; j++) {
+            while(!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_5));
+            Delay_us(40);
+            if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_5)) {
+                data[i] |= (1 << (7 - j));
+                while(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_5));
+            }
+        }
+    }
+
+    // 校验
+    if((data[0] + data[1] + data[2] + data[3]) == data[4]) {
+        *humidity = data[0];
+        *temp = data[2];
+        return 0;
+    }
+    return 1;
+}
+
+// LoRa初始化
+void LoRa_Init(void) {
+    // 复位LoRa模块
+    // 配置频率、带宽、扩频因子
+    // 设置发射功率
+    // 进入待机模式
+    LORA_Reset();
+    LORA_SetFrequency(LORA_FREQUENCY);
+    LORA_SetBandwidth(LORA_BANDWIDTH);
+    LORA_SetSpreadingFactor(LORA_SPREADING_FACTOR);
+    LORA_SetTxPower(LORA_TX_POWER);
+    LORA_SetMode(MODE_STANDBY);
+}
+
+// LoRa发送数据包
+void LoRa_SendPacket(uint8_t *data, uint8_t len) {
+    LORA_SetMode(MODE_STANDBY);
+    LORA_WriteFIFO(data, len);
+    LORA_SetMode(MODE_TX);
+    while(!LORA_GetIrqFlag());
+    LORA_ClearIrqFlag();
+    LORA_SetMode(MODE_STANDBY);
+}
+
+// 电池电压检测 (ADC)
+uint16_t GetBatteryVoltage(void) {
+    ADC_InitTypeDef ADC_InitStructure;
+    uint16_t voltage;
+
+    ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
+    ADC_InitStructure.ADC_ScanConvMode = DISABLE;
+    ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
+    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+    ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+    ADC_InitStructure.ADC_NbrOfChannel = 1;
+    ADC_Init(ADC1, &ADC_InitStructure);
+
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_16, 1, ADC_SampleTime_239Cycles5);
+    ADC_TempSensorVrefintCmd(ENABLE);
+    ADC_Cmd(ADC1, ENABLE);
+    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+    while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC));
+    voltage = ADC_GetConversionValue(ADC1);
+    ADC_Cmd(ADC1, DISABLE);
+
+    return (uint16_t)((voltage * 3300 * 2) / 4096);
+}
+
+// 主函数
+int main(void) {
+    uint8_t temp, humidity;
+    uint16_t battery;
+
+    SystemInit();
+    Delay_Init();
+    RCC_Configuration();
+    GPIO_Configuration();
+    SPI1_Init();
+    USART1_Init(115200);
+    LoRa_Init();
+
+    printf("LoRa Node Started\r\n");
+
+    while(1) {
+        // 读取传感器
+        if(DHT11_Read(&temp, &humidity) == 0) {
+            battery = GetBatteryVoltage();
+
+            // 组装数据包
+            g_packet.node_id = LORA_NODE_ID;
+            g_packet.temp_int = temp;
+            g_packet.temp_dec = 0;
+            g_packet.humidity_int = humidity;
+            g_packet.humidity_dec = 0;
+            g_packet.battery_mv = battery;
+            g_packet.checksum = g_packet.node_id + g_packet.temp_int +
+                                g_packet.humidity_int + (uint8_t)(battery & 0xFF);
+
+            // 发送数据
+            LoRa_SendPacket((uint8_t*)&g_packet, sizeof(Packet_t));
+
+            // LED闪烁指示
+            GPIO_SetBits(GPIOC, GPIO_Pin_13);
+            Delay_ms(100);
+            GPIO_ResetBits(GPIOC, GPIO_Pin_13);
+
+            printf("Temp: %d C, Humidity: %d %%RH, Battery: %d mV\r\n",
+                   temp, humidity, battery);
+        }
+
+        // 定时发送
+        Delay_ms(SEND_INTERVAL * 1000);
+    }
+}

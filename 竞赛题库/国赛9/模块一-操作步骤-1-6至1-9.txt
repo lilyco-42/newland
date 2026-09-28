@@ -1,0 +1,69 @@
+【第9套·模块一 1-6 至 1-9】操作步骤与截图清单
+================================================
+
+■ 1-6 Windows系统维护
+  ① 组策略将 administrator 重命名为 newadmin：
+     gpedit.msc → 计算机配置 → Windows设置 → 安全设置 → 本地策略 → 安全选项
+     → “账户：重命名系统管理员账户 administrator” → 改成 newadmin
+  ② 绑定指定域名与 192.168.0.138：
+     notepad C:\Windows\System32\drivers\etc\hosts
+     添加一行：192.168.0.138  【指定域名】（域名以任务书为准）
+  ③ 跟踪 TCP/IP 数据包路径：tracert 192.168.0.138
+
+  截图：
+  A-15-1.jpg  组策略中 administrator 重命名为 newadmin 的配置界面
+  A-15-2.jpg  hosts 文件中指定域名与 192.168.0.138 绑定界面
+  A-15-3.jpg  tracert 192.168.0.138 命令执行结果（跟踪路径）
+
+■ 1-7 Ubuntu系统维护（iotuser/iotuser）
+  ① 开通 root SSH：sudo nano /etc/ssh/sshd_config → PermitRootLogin yes
+     → sudo systemctl restart sshd
+  ② 目录创建：
+     mkdir aaa bbb
+     touch aaa/a.txt
+     mkdir bbb/ccc
+     touch bbb/b.txt bbb/ccc/c.txt
+  ③ 权限：chmod -R 777 bbb
+  ④ 压缩：tar -zcvf xxx.tar.gz aaa bbb
+  ⑤ 查看系统版本：cat /etc/os-release【答案 A-16-5.txt】
+  ⑥ 查看系统内核限制：ulimit -a【答案 A-16-6.txt】
+
+  截图/文件：
+  A-16-1.jpg  Xshell 以 root 登录 Ubuntu（体现登录端 IP）
+  A-16-2.txt  合并压缩命令【已生成】= tar -zcvf xxx.tar.gz aaa bbb
+  A-16-3.txt  bbb 文件夹权限命令【已生成】= chmod -R 777 bbb
+  A-16-4.jpg  chmod 后查看 bbb 文件夹文件列表和权限（ls -l bbb）
+  A-16-5.txt  查看系统版本命令【已生成】= cat /etc/os-release
+  A-16-6.txt  查看系统内核限制命令【已生成】= ulimit -a
+
+■ 1-8 数据库运维查询与优化（Windows MySQL 5.7.36，与第4套 1-8 相同）
+  ① 安装并启动 MySQL 服务；root 密码 123456；开通远程
+     GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456';
+     FLUSH PRIVILEGES;
+  ② Navicat 远程连接；创建 nleedge 数据库并还原 data.sql / nleedge.nb3
+  截图/文件：
+  A-17-1.jpg  Windows 服务列表中 MySQL“正在运行”
+  A-17-2.jpg  Navicat 成功连接 MySQL
+  A-17-3.jpg  Navicat 以详细信息方式查看 nleedge 数据表
+  A-17-4.sql  查询所有数据表和每个表记录数【已生成】
+  A-17-5.jpg  Navicat 执行 A-17-4.sql 的查询语句和结果
+
+■ 1-9 硬件设备维护（联动控制器 + 云服务系统 TCP 协议）
+  ① 联动控制器拨片把设备地址设置为 16（A-18-1.jpg 用网络摄像头拍摄拨片位置）
+  ② 登录云服务系统中心网关传感器页面，开/关单联继电器测试 LED 灯泡正常
+  ③ 关闭中心网关电源
+  ④ NetAssist 以 TCP Client 连接 192.168.0.138:8600 → A-18-2.jpg（建立通讯界面）
+  ⑤ 发送心跳包 $#AT# ，测试服务器在线 → A-18-3.jpg（收到反馈）
+  ⑥ 按“设备接入协议-TCP.doc”发送 CONN_REQ 普通鉴权请求报文 →
+     A-18-4.jpg（鉴权成功收到两条反馈信息）
+  ⑦ 云服务系统执行开/关 zigbee 风扇2 → NetAssist 收到 CMD_REQ 请求报文
+     （记住 cmdid）→ 按文档组织命令响应报文发送 → A-18-5.jpg（收到请求 + 发送响应界面）
+  ⑧ 云服务系统“历史命令”页显示 CMDID 且“设备已响应” → A-18-6.jpg
+  ⑨ 最后重新开启中心网关电源
+
+  报文格式参考：
+  心跳包：$#AT#
+  CONN_REQ：按“设备接入协议-TCP.doc”的连接请求报文结构（含设备号、鉴权参数）
+  命令响应：按文档命令响应报文格式（含 cmdid、命令执行结果字段）
+
+■ 1-10 职业素养：现场执行

@@ -1,0 +1,16 @@
+{
+  "serial": {
+    "port": "COM5",
+    "baud": 57600
+  },
+  "rfid_map": {
+    "RFID1_卡号": "open",
+    "RFID2_卡号": "close",
+    "RFID3_卡号": "unknown"
+  },
+  "led_text": {
+    "open": "欢迎光临",
+    "close": "您走好",
+    "unknown": "未注册"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "device_tcp": {
+    "host": "192.168.1.10",
+    "port": 9000
+  },
+  "uhf": {
+    "mode": "serial",
+    "port": "COM4",
+    "baud": 115200
+  },
+  "alarm_frame": "AA 55 01 00 00 01"
+}

@@ -1,0 +1,44 @@
+【第4套·模块二 2-2 / 2-3 嵌入式代码骨架】
+================================================
+
+■ 2-2 设备无线通讯控制系统（两块黑色 ZigBee 开发板 A、B）
+  板 A（发送端：SW1 控制）：
+    void key_scan(void) {
+        if (SW1 按下) {
+            // 取反发送开关状态
+            uint8 cmd = (fan_state) ? 0x00 : 0x01;   // 0x01 开风扇, 0x00 停风扇
+            fan_state = !fan_state;
+            myApp_SendMessage(&cmd, 1, B_DEV_ADDR);  // 无线发送给板B
+        }
+    }
+
+  板 B（接收端：控制继电器 → 风扇）：
+    void myApp_MessageMSGCB( afIncomingMSGPacket_t *pkt ) {
+        uint8 cmd = pkt->cmd.Data[0];
+        if (cmd == 0x01)  P1_0 = 1;   // 继电器吸合 -> 风扇启动
+        else              P1_0 = 0;   // 继电器断开 -> 风扇停止
+    }
+
+  说明：继电器接板 B 的 P1_0（带三极管驱动，注意续流二极管），
+        ZigBee 无线网络两端使用相同的 PAN ID 和短地址绑定即可。
+
+■ 2-3 计数器系统开发（NB-IoT 模块 + 液晶屏）
+  逻辑（主循环）：
+    N = (uint16)Flash_Read(SAVE_ADDR);        // 上电读取 Flash 中的 N
+    LED2 = OFF;
+    while (1) {
+        if (KEY2 按下) { N--; RefreshLCD(N, calc_Y(N)); }
+        if (KEY3 按下) { N++; RefreshLCD(N, calc_Y(N)); }
+        if (KEY4 按下) {
+            Flash_Write(SAVE_ADDR, N);         // 保存 N 到 Flash
+            LED2 = ON; delay_ms(1000); LED2 = OFF;
+        }
+        RenderLCD("计数器数值：%d\n结果：%d", N, calc_Y(N));
+    }
+
+  说明：
+    - calc_Y(N)：根据任务书给出的公式计算结果 Y（公式见任务书附图，按公式实现）
+    - Flash 保存可用 MCU 内部 Flash 或外挂 EEPROM，注意擦写次数与写入时序
+    - 断电重启后：N 从 Flash 读出，液晶屏显示最后一次保存值
+
+  交付：完整工程代码保存到 U 盘“提交资料\模块二\题3”目录

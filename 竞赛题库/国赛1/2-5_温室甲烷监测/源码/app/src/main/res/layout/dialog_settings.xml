@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 图3 设置页面：服务器地址 / 阈值 / 传感器与执行器标识 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="云服务器地址：" />
+    <EditText android:id="@+id/et_server" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="http://192.168.0.138" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingTop="8dp" android:text="甲烷报警阈值(%)：" />
+    <EditText android:id="@+id/et_threshold" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:hint="25" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingTop="8dp" android:text="甲烷传感器标识：" />
+    <EditText android:id="@+id/et_sensor_tag" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="m_Methane1" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingTop="8dp" android:text="风扇执行器标识：" />
+    <EditText android:id="@+id/et_fan_tag" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="z_fan" />
+</LinearLayout>

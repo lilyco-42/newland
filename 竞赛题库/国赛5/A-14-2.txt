@@ -1,0 +1,3 @@
+1. 虚拟机安装VMware Workstation，配置网络模式为NAT或桥接，安装Windows Server 2016。
+2. 快照管理：创建初始快照用于系统还原，定期备份虚拟机状态。
+3. 虚拟机与宿主机文件共享：安装VMware Tools，配置共享文件夹。

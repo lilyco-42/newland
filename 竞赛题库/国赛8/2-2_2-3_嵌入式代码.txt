@@ -1,0 +1,148 @@
+==========================================================
+套8 嵌入式代码骨架（2-2 ZigBee + 2-3 NB-IoT）
+==========================================================
+
+【2-2 CC2530 ZigBee 土壤传感器节点】
+
+#include <ioCC2530.h>
+#include <string.h>
+#include <stdio.h>
+
+typedef unsigned char uchar;
+typedef unsigned int  uint;
+
+// ADC读取土壤湿度
+uint ReadSoilMoisture(void) {
+    ADCCON3 = (0x0E << 4) | 0x0F;  // 12bit, AIN7
+    ADCCON1 |= 0x40;               // 开始转换
+    while(!(ADCCON1 & 0x80));      // 等待完成
+    return ADCL | (ADCH << 8);
+}
+
+// 读取土壤温度 (DS18B20)
+float ReadSoilTemp(void) {
+    float temp;
+    // DS18B20单总线协议
+    // 复位 -> 跳过ROM -> 启动转换 -> 读取温度
+    // 此处为简化框架
+    temp = 22.5;  // 替换为实际读取代码
+    return temp;
+}
+
+// UART0初始化
+void InitUART0(void) {
+    PERCFG |= 0x01;
+    P0SEL |= 0x0C;
+    U0CSR |= 0xC0;
+    U0GCR = 11;
+    U0BAUD = 216;
+    U0UCR |= 0x80;
+    U0CSR |= 0x40;
+}
+
+void UART0_Send(char *str) {
+    while(*str) {
+        U0DBUF = *str++;
+        while(UTX0IF == 0);
+        UTX0IF = 0;
+    }
+}
+
+void main(void) {
+    char buf[64];
+    uint soil_moisture;
+    float soil_temp;
+
+    InitUART0();
+    UART0_Send("ZigBee Soil Sensor Node Started\r\n");
+
+    while(1) {
+        soil_moisture = ReadSoilMoisture();
+        soil_temp = ReadSoilTemp();
+
+        // 格式化输出
+        sprintf(buf, "SOIL,T:%.1f,M:%d\n", soil_temp, soil_moisture);
+        UART0_Send(buf);
+
+        // 休眠10秒
+        { uint i; for(i=0; i<10000; i++); }
+    }
+}
+
+==========================================================
+
+【2-3 NB-IoT 水质监测节点 - BC26模组】
+
+#include <stdio.h>
+#include <string.h>
+
+// NB-IoT BC26 AT指令
+void BC26_Init(void) {
+    UART_Send("AT\r\n");
+    UART_WaitOK();
+    UART_Send("AT+CPIN?\r\n");        // 检查SIM卡
+    UART_WaitOK();
+    UART_Send("AT+CGDCONT=1,\"IP\",\"ctnet\"\r\n"); // 设置APN
+    UART_WaitOK();
+    UART_Send("AT+CGATT=1\r\n");      // 附着网络
+    UART_WaitOK();
+}
+
+// MQTT连接云平台
+void BC26_ConnectMQTT(void) {
+    UART_Send("AT+MQTTCFG=0,1,\"client01\",\"\",\"\",0,0,\"\"\r\n");
+    UART_WaitOK();
+    UART_Send("AT+MQTTOPEN=0,\"180.101.241.189\",1883,60\r\n");
+    UART_WaitOK();
+}
+
+// 发布传感器数据
+void BC26_Publish(char *topic, char *payload) {
+    char cmd[256];
+    sprintf(cmd, "AT+MQTTPUB=0,\"%s\",0,0,%d\r\n", topic, strlen(payload));
+    UART_Send(cmd);
+    UART_WaitOK();
+    UART_Send(payload);
+}
+
+// 水质传感器读取
+typedef struct {
+    float ph;
+    float turbidity;
+    float dissolved_o2;
+    float temperature;
+} WaterData;
+
+WaterData ReadWaterSensors(void) {
+    WaterData d;
+    // pH传感器 (AIN0)
+    // 浊度传感器 (AIN1)
+    // 溶解氧传感器 (AIN2)
+    // 温度传感器 (AIN3)
+    d.ph = 7.2;
+    d.turbidity = 2.5;
+    d.dissolved_o2 = 8.0;
+    d.temperature = 22.0;
+    return d;
+}
+
+void main(void) {
+    WaterData wd;
+    char payload[128];
+
+    InitUART0();
+    BC26_Init();
+    BC26_ConnectMQTT();
+
+    while(1) {
+        wd = ReadWaterSensors();
+
+        sprintf(payload, "{\"ph\":%.1f,\"turbidity\":%.1f,\"do\":%.1f,\"temp\":%.1f}",
+                wd.ph, wd.turbidity, wd.dissolved_o2, wd.temperature);
+
+        BC26_Publish("water/monitor/data", payload);
+
+        // 休眠30秒
+        { uint i; for(i=0; i<30000; i++); }
+    }
+}

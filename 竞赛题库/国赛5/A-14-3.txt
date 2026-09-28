@@ -1,0 +1,3 @@
+1. Ubuntu服务器部署：最小化安装Ubuntu Server 22.04，配置静态IP和DNS。
+2. 服务管理：使用systemctl管理nginx/mysql/redis等服务，配置开机自启。
+3. 日志管理：通过rsyslog集中收集日志，logrotate实现日志轮转。

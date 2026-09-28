@@ -1,0 +1,39 @@
+【第4套 · 赛场待办清单】
+========================
+以下为本机无法自动完成、需在赛场实物操作的全部项目。逐项完成后打 ■。
+
+━━━ 模块一：截图（A-xx）━━━
+■ A-14-1.jpg  systeminfo（体现命令行输出）
+■ A-14-2.jpg  net share（查看当前共享服务）
+■ A-14-3.jpg  net share IPC$（开启 IPC$ 共享）
+■ A-14-4.jpg  net share C$ /delete（删除 C$ 共享）
+■ A-14-6.jpg  shutdown -s -t 3600 后系统提示"将在一小时后关闭"弹窗
+■ A-15-1.jpg  Xshell 以 root 登录 Ubuntu（体现登录端 IP）
+■ A-15-2.jpg  ip addr show eth0 查询网卡状态
+■ A-15-3.jpg  tar -zcvf xxx.tar.gz aaa bbb 执行结果
+■ A-15-4.jpg  chmod -R 777 bbb 设置界面
+■ A-15-5.jpg  /etc/login.defs 密码有效期配置
+■ A-15-6.jpg  PAM 密码复杂度 + pam_tally2 锁定策略
+■ A-16-1.jpg  Windows 服务列表 MySQL "正在运行"
+■ A-16-2.jpg  Navicat 成功连接 MySQL
+■ A-16-3.jpg  Navicat 以详细信息查看 nleedge 数据表
+■ A-16-5.jpg  Navicat 执行 SQL 查询结果
+■ A-17-1.jpg  北斗设备地址查询命令帧+响应帧（COM10/9600）
+■ A-17-2.jpg  设置设备地址为 08 命令帧+响应帧
+
+━━━ 模块一：硬件安装 ━━━
+■ 2-2  ZigBee A/B 风扇控制系统烧录安装
+■ 2-3  NB-IoT 计数器系统烧录安装（Key2/Key3/Key4 + Flash 保存）
+
+━━━ 模块二：Android 编译发布 ━━━
+■ 2-4  行人监控系统.apk（云服务系统，编译发布）
+■ 2-5  商品查询系统.apk（UHF/二维码+小票打印，编译发布）
+
+━━━ 模块二：exe 验证 ━━━
+□ 在服务器电脑桌面运行 智能交通违章系统.exe 验证界面正常
+□ 在服务器电脑桌面运行 大厅环境系统.exe 验证界面正常
+
+━━━ 说明 ━━━
+· exe 已在本机打包完成（模块二\exe\ 目录下）
+· 文本答案（A-14-5.txt / A-16-4.sql / A-17-3.txt 北斗解析）已生成
+· 操作指南：模块一-操作步骤-1-6至1-9.txt 已生成

@@ -1,0 +1,28 @@
+# ===== 客厅环境监控升级 程序参数配置文件 =====
+# 格式: 键 = 值, 每行一项; 以 # 开头的行是注释。
+# 修改后重新启动程序生效。
+
+# ===== 云服务系统参数 =====
+server_url = https://api.nlecloud.com
+username = 13011111101
+password = 123456
+# 运行模式: cloud=真实云服务, demo=模拟演示(无硬件验证用)
+mode = cloud
+
+# ===== 传感器标识(ApiTag) =====
+tag_temp = m_temp
+tag_hum = m_hum
+tag_light = m_light
+tag_body = m_body
+
+# ===== 执行器标识(ApiTag) =====
+tag_fan = m_fan
+tag_light_on = m_steady_white
+
+# ===== 控制参数 =====
+# 数据自动刷新间隔(秒)
+refresh_second = 3
+# 光照阈值: 光照度小于该值判为"关灯"(显示 u0.jpg), 否则"开灯"(u1.jpg)
+light_threshold = 100
+# 温度阈值: 温度大于等于该值时强制开启风扇
+temp_threshold = 27

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>第2套 2-1 原型设计 - 串口调试工具</title>
+<style>
+  body { margin:0; background:#f2f4f7; font-family:"Microsoft YaHei"; display:flex; justify-content:center; padding:30px; }
+  .panel { background:#fff; width:520px; border-radius:8px; box-shadow:0 2px 14px rgba(0,0,0,.12); padding:22px; }
+  h2 { margin:0 0 16px; font-size:18px; color:#22303c; text-align:center; }
+  .row { display:flex; align-items:center; margin:10px 0; gap:8px; }
+  .row label { width:64px; font-size:13px; color:#37474f; }
+  select, input[type=text] { flex:1; padding:6px; border:1px solid #cfd8dc; border-radius:4px; font-size:13px; }
+  .grp { display:flex; gap:8px; flex-wrap:wrap; }
+  .state { text-align:center; margin:14px 0; }
+  .state span { display:inline-block; padding:4px 16px; border-radius:16px; font-size:14px; font-weight:bold; }
+  .CLOSED { background:#eceff1; color:#546e7a; }
+  .OPENED { background:#00c853; color:#fff; }
+  .send-area { display:flex; gap:8px; margin-top:8px; }
+  #sendBtn { width:96px; background:#b0bec5; color:#eceff1; border:none; border-radius:4px; font-size:14px; cursor:pointer; }
+  #sendBtn.active { background:#212121; color:#fff; }
+  #openBtn { width:110px; background:#1976d2; color:#fff; border:none; border-radius:4px; font-size:14px; padding:8px 0; cursor:pointer; }
+  #openBtn.closing { background:#e53935; }
+  .log { background:#0d1117; color:#39ff14; border-radius:4px; padding:10px; height:120px; margin-top:12px;
+         font-family:Consolas; font-size:12px; overflow-y:auto; }
+  .note { margin-top:14px; color:#90a4ae; font-size:12px; }
+</style>
+</head>
+<body>
+<div class="panel">
+  <h2>串口调试工具（原型）</h2>
+
+  <div class="row"><label>串口</label>
+    <select id="port">
+      <option value="">请选择串口</option>
+      <option>COM1</option><option>COM2</option><option>COM3</option>
+      <option>COM4</option><option>COM5</option>
+    </select>
+  </div>
+
+  <div class="row"><label>波特率</label>
+    <div class="grp" id="baud">
+      <select id="baudSel">
+        <option>9600</option><option>19200</option><option>38400</option>
+        <option>115200</option><option>Other</option>
+      </select>
+      <input type="text" id="baudOther" placeholder="自定义波特率" style="display:none;">
+    </div>
+  </div>
+
+  <div class="row"><label>数据位</label>
+    <select id="dataBits">
+      <option>5</option><option>6</option><option>7</option><option selected>8</option>
+    </select>
+  </div>
+
+  <div class="row"><label>校验位</label>
+    <select id="parity">
+      <option>奇校验</option><option>偶校验</option><option selected>None</option>
+    </select>
+  </div>
+
+  <div class="row"><label>停止位</label>
+    <select id="stopBits">
+      <option>1</option><option>1.5</option><option>2</option>
+    </select>
+  </div>
+
+  <div class="state"><span id="stateBadge" class="CLOSED">CLOSED</span></div>
+
+  <button id="openBtn">打开串口</button>
+
+  <div class="send-area">
+    <input type="text" id="sendData" placeholder="请输入要发送的数据" disabled>
+    <button id="sendBtn" disabled>发送</button>
+  </div>
+
+  <div class="log" id="log"></div>
+  <div class="note">Axure 中实现：用下拉框/文本框 + “打开串口/关闭串口”按钮 + 条件(非空)判断，
+    用交互样式改变“发送”按钮置灰/置黑与状态标识 CLOSED/OPENED。</div>
+</div>
+
+<script>
+(function(){
+  var port = document.getElementById('port');
+  var baudSel = document.getElementById('baudSel');
+  var baudOther = document.getElementById('baudOther');
+  var openBtn = document.getElementById('openBtn');
+  var sendBtn = document.getElementById('sendBtn');
+  var sendData = document.getElementById('sendData');
+  var badge = document.getElementById('stateBadge');
+  var log = document.getElementById('log');
+  var stopped = false;
+
+  baudSel.onchange = function(){
+    baudOther.style.display = (baudSel.value === 'Other') ? 'block' : 'none';
+  };
+
+  function logLine(t){ log.innerHTML += t + '<br>'; log.scrollTop = log.scrollHeight; }
+
+  openBtn.onclick = function(){
+    if (stopped) {
+      // 关闭串口
+      badge.className = 'CLOSED'; badge.textContent = 'CLOSED';
+      sendBtn.disabled = true; sendBtn.className = '';
+      sendData.disabled = true;
+      openBtn.textContent = '打开串口'; openBtn.className = '';
+      logLine('>>> 串口已关闭');
+      stopped = false;
+      return;
+    }
+    // 打开串口：非空验证
+    if (!port.value) {
+      alert('请选择串口！');
+      logLine('!!! 串口为空，弹出提示');
+      return;
+    }
+    badge.className = 'OPENED'; badge.textContent = 'OPENED';
+    sendBtn.disabled = false; sendBtn.className = 'active';
+    sendData.disabled = false;
+    openBtn.textContent = '关闭串口'; openBtn.className = 'closing';
+    logLine('>>> 串口 ' + port.value + ' 已打开（' + baudSel.value + '）');
+    stopped = true;
+  };
+
+  sendBtn.onclick = function(){
+    if (sendData.value.trim()) {
+      logLine('发送 >> ' + sendData.value);
+    } else {
+      alert('发送内容不能为空');
+    }
+  };
+})();
+</script>
+</body>
+</html>

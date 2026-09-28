@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00838F</color>
+    <color name="colorPrimaryDark">#006064</color>
+    <color name="colorAccent">#FFB300</color>
+    <color name="white">#FFFFFF</color>
+    <color name="bgLight">#1A2332</color>
+    <color name="textPrimary">#FFFFFF</color>
+    <color name="textSecondary">#B0BEC5</color>
+    <color name="textHint">#78909C</color>
+    <color name="connOn">#4CAF50</color>
+    <color name="connOff">#546E7A</color>
+    <color name="cardBg">#223344</color>
+    <color name="cardBorder">#2C3E50</color>
+</resources>

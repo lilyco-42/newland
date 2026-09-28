@@ -1,0 +1,17 @@
+{
+    "cloud": {
+        "host": "192.168.0.138",
+        "port": 80,
+        "account": "admin",
+        "password": "admin123",
+        "device_id": 1
+    },
+    "api_tags": {
+        "temperature": "m_temp",
+        "humidity": "m_hum",
+        "light": "m_light",
+        "body": "z_body",
+        "led": "m_steady_white"
+    },
+    "interval": 30
+}

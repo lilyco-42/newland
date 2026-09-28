@@ -1,0 +1,5 @@
+把官方云平台 SDK jar 放到本目录：
+    official_ref\android代码与内库\Android内库\云平台Android_SDK\lecloudII.jar
+拷贝为：
+    app\libs\lecloudII.jar
+build.gradle 已通过 fileTree(dir:'libs', include:['*.jar']) 自动引入。

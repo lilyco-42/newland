@@ -1,0 +1,16 @@
+【第9套 · D:\提交资料\模块二 目录规划】（U盘同结构拷贝）
+========================================================
+提交资料\模块二\
+├─ 题2\  串口通讯系统.rar（CC2530 工程源码：FE 01 xx FF 指令 + FE 01 04 xx xx xx xx CRC16 返回）
+├─ 题3\  环境监控灯.rar（NB-IOT 工程源码：温度<28 LED2 亮、每秒上报光照+LED状态）
+├─ 题4\  设备控制.rar（Android：LED/风扇开关）
+├─ 题5\  室内温湿度.rar（Android：温度 #01A7FF、湿度 #35D529）
+├─ 题6\  气象系统.rar（weather_led.py + config.json）
+└─ 题7\  客厅环境系统.rar（door_system.py + config.json）
+
+说明：
+  · exe 打包命令：
+    pyinstaller -F -w -n 气象系统 weather_led.py
+    pyinstaller -F -w -n 门禁系统 door_system.py   （如任务书要求 exe 名按实际调整）
+  · 题7 UHF 桌面发卡器波特率 57600，卡号→开门/关门/未注册映射在 config.json 的 rfid_map
+  · Android 工程（题4/题5）需自行编译发布后压缩源码放入

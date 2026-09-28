@@ -1,0 +1,34 @@
+【第4套 · 上机截图打卡表】（模块一 1-6~1-9）
+================================================
+1-6 Windows（服务器 cmd）：
+□ A-14-1.jpg   systeminfo（初始安装日期/系统启动时间，体现命令行）
+□ A-14-2.jpg   net share（查看当前共享服务）
+□ A-14-3.jpg   net share IPC$（开启 IPC$ 共享，命令+结果）
+□ A-14-4.jpg   net share C$ /delete（删除 C: 共享，命令+结果）
+■ A-14-5.txt   shutdown -s -t 3600（已生成）
+□ A-14-6.jpg   系统提示"将在一小时后关闭"弹窗
+
+1-7 Ubuntu（iotuser/iotuser，先开 root SSH）：
+□ A-15-1.jpg   Xshell 以 root 登录（体现登录端 IP）
+□ A-15-2.jpg   ip addr show eth0（或 ifconfig eth0）查询网卡状态，体现命令
+    准备：mkdir aaa bbb; touch aaa/a.txt; mkdir bbb/ccc; touch bbb/b.txt bbb/ccc/c.txt
+□ A-15-3.jpg   tar -zcvf xxx.tar.gz aaa bbb 执行结果
+□ A-15-4.jpg   chmod -R 777 bbb 设置界面
+□ A-15-5.jpg   /etc/login.defs：PASS_MAX_DAYS 30 / PASS_MIN_DAYS 1 / PASS_WARN_AGE 3
+□ A-15-6.jpg   /etc/pam.d/common-password（minlen=6 ucredit=1）
+    + /etc/pam.d/common-auth（pam_tally2 deny=3 unlock_time=180）
+
+1-8 MySQL（Windows mysql-5.7.36）：
+□ A-16-1.jpg   Windows 服务列表 MySQL 服务"正在运行"
+□ A-16-2.jpg   Navicat 成功连接（root/123456，远程）
+□ A-16-3.jpg   Navicat 打开 nleedge 以"详细信息"查看数据表
+■ A-16-4.sql   查询所有数据表和每个表记录数（已生成）
+□ A-16-5.jpg   Navicat 执行结果（语句+结果）
+
+1-9 北斗定位：
+□ A-17-1.jpg   查询设备地址命令帧+响应帧（COM10/9600）
+□ A-17-2.jpg   设置设备地址为 08 命令帧+响应帧
+■ A-17-3.txt   报文 Hex→ASCII 解析：经度119°24.39785′E、纬度26°01.29829′N、
+    北京时间2022-07-06 14:08:56（已生成）
+
+◇ 1-10 职业素养：现场执行

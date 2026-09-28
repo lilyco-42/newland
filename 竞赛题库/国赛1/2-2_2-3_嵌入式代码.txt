@@ -1,0 +1,243 @@
+==========================================================
+套1 嵌入式代码骨架（2-2 ZigBee + 2-3 LoRa）
+==========================================================
+
+【2-2 CC2530 ZigBee 协调器 - 串口数据汇聚】
+
+#include <ioCC2530.h>
+#include <string.h>
+
+#define UART0_RX_LEN 128
+#define UART0_TX_LEN 128
+
+typedef unsigned char uchar;
+typedef unsigned int  uint;
+
+char RxBuf[UART0_TX_LEN];
+char TxBuf[UART0_TX_LEN];
+uchar RxLen = 0;
+
+// 系统时钟初始化
+void InitClock(void) {
+    CLKCONCMD &= ~0x40;
+    while(CLKCONSTA & 0x40);
+    CLKCONCMD &= ~0x07;
+    CLKCONCMD |= 0x38;
+    while((CLKCONSTA & 0x38) != 0x38);
+}
+
+// 串口0初始化 (115200@32MHz)
+void InitUART0(void) {
+    PERCFG |= 0x01;
+    P0SEL |= 0x0C;
+    U0CSR |= 0xC0;
+    U0GCR = 11;
+    U0BAUD = 216;
+    U0UCR |= 0x80;
+    EA = 1;
+    IEN2 |= 0x04;
+    U0CSR |= 0x40;
+}
+
+// 串口发送
+void UART0_SendString(char *str) {
+    while(*str) {
+        U0DBUF = *str++;
+        while(UTX0IF == 0);
+        UTX0IF = 0;
+    }
+}
+
+// 传感器数据结构
+typedef struct {
+    uchar addr[8];      // 节点地址
+    float temperature;   // 温度
+    float humidity;      // 湿度
+    uint  light;         // 光照
+} SensorData;
+
+SensorData sensorList[16];
+uchar sensorCount = 0;
+
+// 解析传感器数据
+void ParseSensorData(char *buf, uchar len) {
+    // 格式: #ADDR,T:25.5,H:60.2,L:500#
+    char *p = strchr(buf, '#');
+    if (!p) return;
+    p++;
+    // 解析温度
+    char *t = strchr(p, 'T');
+    if (t) {
+        sensorList[sensorCount].temperature = atof(t + 2);
+    }
+    // 解析湿度
+    char *h = strchr(p, 'H');
+    if (h) {
+        sensorList[sensorCount].humidity = atof(h + 2);
+    }
+    // 解析光照
+    char *l = strchr(p, 'L');
+    if (l) {
+        sensorList[sensorCount].light = atoi(l + 2);
+    }
+    sensorCount++;
+}
+
+// 通过串口上报网关
+void UploadToGateway(void) {
+    uchar i;
+    char tmp[64];
+    for (i = 0; i < sensorCount; i++) {
+        sprintf(tmp, "S%d,T:%.1f,H:%.1f,L:%d\n",
+                i, sensorList[i].temperature,
+                sensorList[i].humidity, sensorList[i].light);
+        UART0_SendString(tmp);
+    }
+    sensorCount = 0;
+}
+
+// 主函数
+void main(void) {
+    InitClock();
+    InitUART0();
+    UART0_SendString("ZigBee Coordinator Started\r\n");
+
+    while(1) {
+        // 接收子节点数据并通过串口上报
+        if (RxLen > 0) {
+            ParseSensorData(RxBuf, RxLen);
+            RxLen = 0;
+        }
+        // 定时上报
+        UploadToGateway();
+        // 延时约5秒
+        {
+            uint j, k;
+            for (j = 0; j < 5000; j++)
+                for (k = 0; k < 1000; k++);
+        }
+    }
+}
+
+// 串口接收中断
+#pragma vector = URX0_VECTOR
+__interrupt void URX0_ISR(void) {
+    char ch = U0DBUF;
+    if (ch == '#' || RxLen > 0) {
+        RxBuf[RxLen++] = ch;
+        if (ch == '#' && RxLen > 2) {
+            RxBuf[RxLen] = '\0';
+        }
+    }
+}
+
+==========================================================
+
+【2-3 LoRa 温湿度采集节点 - 定时发送】
+
+#include <stdio.h>
+#include <string.h>
+
+// LoRa模块配置 (SX1278)
+#define LORA_SPI_PORT  P1SEL
+#define LORA NSS_PIN   P1_4
+#define LORA RESET_PIN P1_5
+#define LORA DIO0_PIN  P1_6
+
+// 温湿度传感器 (DHT11)
+#define DHT11_PORT P0_0
+#define DHT11_PIN  0
+
+typedef unsigned char uchar;
+typedef unsigned int  uint;
+
+float temperature = 0.0;
+float humidity = 0.0;
+
+// DHT11读取
+void DHT11_Read(float *temp, float *humi) {
+    uchar buf[5];
+    uchar i, j;
+    // 启动信号
+    DHT11_PORT = 0;
+    // 延时20ms
+    { uint t = 20000; while(t--); }
+    DHT11_PORT = 1;
+    // 等待响应...
+    // 读取5字节数据
+    for (i = 0; i < 5; i++) {
+        buf[i] = 0;
+        for (j = 0; j < 8; j++) {
+            while(DHT11_PORT == 0);
+            // 延时30us判断
+            { uint t = 300; while(t--); }
+            if (DHT11_PORT == 1) {
+                buf[i] |= (1 << (7 - j));
+                while(DHT11_PORT == 1);
+            }
+        }
+    }
+    *humi = buf[0] + buf[1] * 0.1;
+    *temp = buf[2] + buf[3] * 0.1;
+}
+
+// LoRa SPI写寄存器
+void LoraWriteReg(uchar addr, uchar data) {
+    LORA NSS_PIN = 0;
+    SPI_WriteByte(addr | 0x80);
+    SPI_WriteByte(data);
+    LORA NSS_PIN = 1;
+}
+
+// LoRa读寄存器
+uchar LoraReadReg(uchar addr) {
+    uchar data;
+    LORA NSS_PIN = 0;
+    SPI_WriteByte(addr & 0x7F);
+    data = SPI_ReadByte();
+    LORA NSS_PIN = 1;
+    return data;
+}
+
+// LoRa发送数据
+void LoraSend(uchar *buf, uchar len) {
+    uchar i;
+    // 进入连续发送模式
+    LoraWriteReg(0x01, 0x80); // LoRa mode
+    LoraWriteReg(0x0D, 0x00); // FIFO addr ptr
+    LoraWriteReg(0x22, len);  // Payload length
+    LORA NSS_PIN = 0;
+    SPI_WriteByte(0x80);
+    for (i = 0; i < len; i++) {
+        SPI_WriteByte(buf[i]);
+    }
+    LORA NSS_PIN = 1;
+    LoraWriteReg(0x01, 0x83); // TX mode
+    while(LORA DIO0_PIN == 0); // 等待发送完成
+}
+
+// 主函数
+void main(void) {
+    char payload[32];
+    uchar len;
+
+    InitClock();
+    InitSPI();
+    LoraInit();
+
+    while(1) {
+        // 读取温湿度
+        DHT11_Read(&temperature, &humidity);
+
+        // 组装数据包
+        len = sprintf(payload, "T:%.1f,H:%.1f", temperature, humidity);
+
+        // LoRa发送
+        LoraSend((uchar*)payload, len);
+
+        // 低功耗休眠 30秒
+        LoraEnterSleep();
+        { uint t; for(t=0; t<30000; t++); }
+        LoraExitSleep();
+    }
+}

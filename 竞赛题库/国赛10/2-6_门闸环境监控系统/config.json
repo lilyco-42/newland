@@ -1,0 +1,16 @@
+{
+  "tcp": {
+    "host": "192.168.1.10",
+    "port": 8000
+  },
+  "camera": {
+    "ip": "192.168.1.100",
+    "port": 80,
+    "user": "admin",
+    "pass": "admin123",
+    "snapshot_url": "http://{ip}:{port}/snapshot.jpg",
+    "ptz_url": "http://{ip}:{port}/ptz_control.cgi?cmd={dir}&user={user}&pwd={pass}"
+  },
+  "save_interval_sec": 5,
+  "shots_dir": "截图"
+}

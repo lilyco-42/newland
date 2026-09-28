@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">远程监控</string>
+    <string name="monitor_area_label">监控画面</string>
+    <string name="btn_start_monitor">开启监控系统</string>
+    <string name="btn_stop_monitor">关闭监控系统</string>
+    <string name="btn_up">上</string>
+    <string name="btn_down">下</string>
+    <string name="btn_left">左</string>
+    <string name="btn_right">右</string>
+    <string name="btn_light_on">开灯</string>
+    <string name="btn_light_off">关灯</string>
+    <string name="light_control_label">路灯控制</string>
+    <string name="auto_settings_label">自动设置</string>
+    <string name="auto_light_on_time">自动开灯时间</string>
+    <string name="auto_light_off_time">自动关灯时间</string>
+    <string name="btn_save_settings">保存设置</string>
+    <string name="camera_control_label">摄像头控制</string>
+    <string name="monitor_status_off">监控已关闭</string>
+    <string name="monitor_status_on">监控中</string>
+    <string name="light_status_on">路灯已开启</string>
+    <string name="light_status_off">路灯已关闭</string>
+    <string name="settings_saved">设置已保存</string>
+    <string name="settings_title">自动开关灯设置</string>
+    <string name="label_rtsp">摄像头RTSP地址</string>
+    <string name="label_ptz">PTZ云台控制地址</string>
+    <string name="hint_rtsp">如 rtsp://admin:12345@172.18.XX.13:554/stream1</string>
+    <string name="hint_ptz">参数含 {dir} 占位(up/down/left/right)，如 http://172.18.XX.13/cgi/ptz?dir={dir}</string>
+</resources>

@@ -1,0 +1,80 @@
+【第9套·模块二 2-2 / 2-3 嵌入式代码骨架】
+================================================
+
+■ 2-2 CC2530 单片机开发（串口 LED 控制，D3/D4/D5/D6）
+  上位机指令格式：FE 01 xx FF（xx = 0~15，二进制位对应 D4D3D6D5 亮灭）
+  返回值格式：FE 01 04 D4 D3 D6 D5 CRC16（CRC-16/Modbus，高字节在前）
+
+  上位机发送：FE 01 02 FF（0x02 = 二进制 0010 → D6 亮，其余灭）
+
+  CC2530 Z-Stack 串口接收处理（HalUART 回调 / MT 层均可）：
+    static uint8 buf[8], len = 0;
+    void uart_cb(uint8 *data, uint16 len_in) {
+        for (i = 0; i < len_in; i++) {
+            buf[len++] = data[i];
+            if (buf[0] != 0xFE) { len = 0; continue; }
+            if (buf[1] != 0x01) { len = 0; continue; }
+            if (len == 4) {           // FE 01 xx FF
+                if (buf[3] == 0xFF) {
+                    set_leds(buf[2]); // 按位写 D4D3D6D5
+                    send_ack();       // 组织返回帧
+                }
+                len = 0;
+            }
+        }
+    }
+
+    void set_leds(uint8 v) {
+        LED_D3 = (v & 0x01);  // D3 = bit0（按实际引脚定义调整）
+        LED_D4 = (v & 0x02);
+        LED_D6 = (v & 0x04);
+        LED_D5 = (v & 0x08);
+    }
+
+    void send_ack(void) {
+        uint8 frame[9];
+        frame[0] = 0xFE; frame[1] = 0x01; frame[2] = 0x04;
+        frame[3] = LED_D4; frame[4] = LED_D3; frame[5] = LED_D6; frame[6] = LED_D5;
+        uint16 crc = crc16_modbus(frame, 7);
+        frame[7] = crc >> 8; frame[8] = crc & 0xFF;   // 高字节在前
+        Uart_Send(frame, 9);
+    }
+
+    // CRC-16/Modbus：多项式 0xA001，初值 0xFFFF
+    uint16 crc16_modbus(uint8 *p, uint16 n) {
+        uint16 crc = 0xFFFF;
+        for (i = 0; i < n; i++) {
+            crc ^= p[i];
+            for (j = 0; j < 8; j++)
+                crc = (crc & 1) ? (crc >> 1) ^ 0xA001 : (crc >> 1);
+        }
+        return crc;
+    }
+
+  额外要求：D5 上电点亮 2 秒后熄灭（D4/D3/D6 保持灭）——上电初始化时
+    D4=D3=D6=OFF; D5=ON; 延时 2s; D5=OFF;
+
+  交付：工程源码打包为“串口通讯系统.rar”
+
+■ 2-3 智能设备的开发（NB-IOT 模块 + 温湿度光照传感器，环境监控灯）
+  任务：
+    1. 液晶屏显示：温度 xx（实时值 + 单位）、湿度 xx（实时值 + 单位）
+    2. 温度 < 28℃ → LED2 亮；温度 ≥ 28℃ → LED2 灭
+    3. NB-IOT 每秒（USB 115200）上报：光照度实时值、LED 当前状态
+
+  主循环思路：
+    while (1) {
+        read_sensor(&temp, &hum, &light);        // 读温湿度、光照
+        lcd_show(0, "温度 %d", temp);
+        lcd_show(1, "湿度 %d", hum);
+
+        if (temp < 28) LED2 = ON; else LED2 = OFF;
+
+        // 每秒上报一次：格式按任务书，例如
+        // "光照 %d, LED %d\r\n"
+        if (tick_1s) {
+            uart_send("light:%d|led:%d\r\n", light, LED2 ? 1 : 0);
+        }
+    }
+
+  交付：工程源码打包为“环境监控灯.rar”

@@ -1,0 +1,13 @@
+{
+  "tcp": {
+    "host": "192.168.1.10",
+    "port": 8000
+  },
+  "devices": {
+    "fan_coil": "kk_zzdt_fan",
+    "lamp": "kk_zzdt_lamp",
+    "alarm": "kk_alarm",
+    "door": "kk_door"
+  },
+  "temp_threshold": 30.0
+}

@@ -1,0 +1,26 @@
+{
+    "cloud": {
+        "host": "192.168.0.138",
+        "port": 80,
+        "account": "admin",
+        "password": "admin123",
+        "project_id": 1,
+        "device_id": 1
+    },
+    "bus": "serial",
+    "serial": {
+        "port": "COM3",
+        "baud": 9600
+    },
+    "tcp": {
+        "ip": "192.168.0.100",
+        "port": 9000
+    },
+    "sensor_interval": 2,
+    "sensor_address": 1,
+    "api_tags": {
+        "temperature": "m_louverbox_temp",
+        "humidity": "m_louverbox_hum"
+    },
+    "interval": 10
+}

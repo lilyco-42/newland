@@ -1,0 +1,23 @@
+﻿【第6套·完成清单】（GZ038 2023 赛题）
+========================================
+■ 模块一 1-6 ~ 1-9
+  ✅ 操作指南：模块一-操作步骤-1-6至1-9.txt
+    （防火墙"禁止工作站访问，暂不启用"规则 + netstat -an/ipconfig /all；
+      Ubuntu 设IP/mkdir test/chmod 755；SQLServer 用户dbUser+sysadmin+
+      最大并发连接数10；北斗默认波特率查询）
+  ⚠️ 待实操截图：A-15-1~2、A-16-1~3、A-17-1~2、A-18-1
+■ 模块二
+  ✅ 2-1 原型设计：2-1_原型HTML\index.html（页面壳）
+  ✅ 2-2/2-3 嵌入式代码骨架：2-2_2-3_嵌入式代码.txt（ZigBee A-B: FA 00 FB→FA 01 FB +
+     长按LED；NB-IoT LED2 微亮/全亮）
+  ✅ 2-5 环境监测系统 Android：复用 D:\源码\2-5_环境监测系统（TCP读ZigBee温湿度CO2光照）
+  ✅ 2-6 监控管理系统 Python：已拷贝 2-6_监控管理系统\（监控管理系统.py+config）导入测试通过
+  ✅ 2-7 客厅环境监控 Python：已拷贝 2-7_客厅环境监控\（环境监控.py+nle_cloud.py+images）
+     导入测试通过；打包命令 pyinstaller -F -w -n roomeve 环境监控.py
+  ✅ 模块二-操作步骤与交付物.txt
+■ 待现场（硬件/发布）
+  ⚠️ 1-6 防火墙规则(取消"立即启用")与 netstat；1-7 虚拟机；1-8 SSMS；1-9 北斗
+  ⚠️ 2-2 板A贴C-2-A、板B贴C-2-B、B接COM1；2-3 贴C-3装A面卖场销售区
+  ⚠️ 2-4 停车场车辆进出管理 Android 开发（TCP模式，指南见模块二）
+  ✅ 2-7 已产出 roomeve.exe(13.1MB，含images图片)并冒烟通过
+      → 汇总于 6\模块二\exe\

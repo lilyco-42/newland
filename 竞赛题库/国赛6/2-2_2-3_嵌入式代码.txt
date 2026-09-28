@@ -1,0 +1,58 @@
+【第6套·模块二 2-2 / 2-3 嵌入式代码骨架】
+================================================
+
+■ 2-2 设备无线通讯功能开发（ZigBee A / B，RS232 数据加一）
+  数据帧：FA [数据] FB（FA 头、FB 尾、数据 1 字节）
+  功能：板 A 点击 SW1 → 板 B 发送的数据值自动加一（00→01→02…）
+       板 A 长按 SW1 → LED1 亮 LED2 灭；松开 → LED1、LED2 都常亮。
+
+  板 B（接收 + RS232 输出）：
+    static uint8 out_val = 0x00;
+    void myApp_MessageMSGCB(afIncomingMSGPacket_t *pkt) {
+        if (pkt->cmd.Data[0] == 0x01) {          // 加一命令
+            out_val++;
+            uint8 frame[3] = { 0xFA, out_val, 0xFB };
+            HalUARTWrite(0, frame, 3);            // RS232 输出 FA xx FB
+        }
+    }
+
+  板 A（按键处理）：
+    void key_scan(void) {
+        if (SW1 按下) {                           // 短按：发送加一命令
+            uint8 cmd = 0x01;
+            myApp_SendMessage(&cmd, 1, ADDR_B);
+        }
+        // 长按判断：按下超过 1s → LED1=ON, LED2=OFF
+        // 松开 → LED1=ON, LED2=ON（常亮）
+        if (SW1 长按中) { LED1 = 1; LED2 = 0; }
+        else            { LED1 = 1; LED2 = 1; }
+    }
+
+  说明：用 Z-Stack 定时器（如 1ms 计数）累计按下时间区分短按/长按；去抖 10ms。
+  交付：板 A 贴 C-2-A、板 B 贴 C-2-B；工程文件存 提交资料\模块二\题2。
+
+■ 2-3 智能设备开发（NB-IoT 模块，LED2 两级亮度 + 液晶屏）
+  任务：通电 LED2 灭；Key2 → LED2 微微发亮(PWM 低占空比)；Key3 → LED2 完全亮起；
+        液晶屏随按键切换相应显示效果。
+
+  骨架：
+    PWM_Init();
+    LED2_DUTY = 0;             // 通电灭
+    lcd_show("效果1");         // 初始界面
+    while (1) {
+        if (KEY2 按下) {
+            LED2_DUTY = 30;    // 微微发亮（低占空比）
+            PWM_SetDuty(LED2_DUTY);
+            lcd_show("效果2 - 微亮");
+            delay_ms(50);      // 去抖
+        }
+        if (KEY3 按下) {
+            LED2_DUTY = 255;   // 完全亮起（满占空比）
+            PWM_SetDuty(LED2_DUTY);
+            lcd_show("效果3 - 全亮");
+            delay_ms(50);
+        }
+    }
+
+  说明：LED2 接 PWM 输出引脚（或软件定时器模拟 PWM）。
+  交付：贴 C-3 标签，安装到 A 面卖场销售区；工程存 提交资料\模块二\题3。

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 风扇图标（矢量）：超标时由 RotateAnimation 旋转 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="160dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <!-- 中心圆 -->
+    <path
+        android:fillColor="#1565C0"
+        android:pathData="M50,42 a8,8 0 1,0 0.1,0 z" />
+    <!-- 四片扇叶 -->
+    <path android:fillColor="#64B5F6" android:pathData="M50,50 C50,25 60,15 72,18 C68,32 60,42 50,50 z" />
+    <path android:fillColor="#64B5F6" android:pathData="M50,50 C75,50 85,60 82,72 C68,68 58,60 50,50 z" />
+    <path android:fillColor="#64B5F6" android:pathData="M50,50 C50,75 40,85 28,82 C32,68 40,58 50,50 z" />
+    <path android:fillColor="#64B5F6" android:pathData="M50,50 C25,50 15,40 18,28 C32,32 42,40 50,50 z" />
+</vector>

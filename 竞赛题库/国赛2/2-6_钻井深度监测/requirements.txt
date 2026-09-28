@@ -1,0 +1,3 @@
+# 钻井深度监测 依赖
+openpyxl
+pyserial

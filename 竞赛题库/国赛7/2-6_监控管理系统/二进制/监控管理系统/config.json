@@ -1,0 +1,13 @@
+{
+    "camera": {
+        "ip": "192.168.1.100",
+        "port": 80,
+        "user": "admin",
+        "pass": "admin123",
+        "snapshot_url": "http://{ip}:{port}/snapshot.jpg",
+        "stream_url": "http://{ip}:{port}/videostream.cgi?user={user}&pwd={pass}",
+        "ptz_url": "http://{ip}:{port}/ptz_control.cgi?cmd={dir}&user={user}&pwd={pass}"
+    },
+    "interval_ms": 80,
+    "timeout": 3
+}

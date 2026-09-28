@@ -1,0 +1,18 @@
+【第2套 · D:\提交资料\模块二 目录规划】（U盘同结构拷贝）
+========================================================
+提交资料\模块二\
+├─ 题2\                  ZigBee 按键程序完整工程代码（蓝色节点盒，B-Q3，标签E-1）
+├─ 题3\                  LoRa环境监控系统.rar（工程源码打包）
+├─ 题4\                  远程监控.rar（Android 工程源码）
+├─ 题5\                  环境监控源码.rar（Android）＋ C-4-1.txt（参数配置）
+├─ 06钻井深度监测功能开发\   钻井深度监测.exe（编译后的应用）＋ 源码
+├─ 钻井深度监测功能开发\     完整工程代码（按任务书同时要求两个目录，均可放源码）
+└─ 门禁系统功能开发\         门禁系统.exe ＋ 完整工程代码（access_control.py + config.json + nle_cloud.py）
+
+说明：
+  · exe 打包命令（在对应工程目录执行）：
+    pyinstaller -F -w -n 钻井深度监测 drilling_monitor.py
+    pyinstaller -F -w -n 门禁系统 access_control.py
+  · 门禁系统 images\ 目录需补刷卡人员图像（卡号.jpg，默认 default.jpg）
+  · Android（题4 远程监控 / 题5 环境监控）用 Android Studio 编译发布后，
+    源码压缩为对应 .rar 放入

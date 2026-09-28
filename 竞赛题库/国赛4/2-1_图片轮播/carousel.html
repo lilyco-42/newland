@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>第4套 2-1 原型设计 - 图片轮播</title>
+<style>
+  body { margin:0; background:#f0f0f0; display:flex; justify-content:center; align-items:center; height:100vh; font-family:"Microsoft YaHei"; }
+  .box { background:#fff; padding:30px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,.15); text-align:center; }
+  .stage { position:relative; width:600px; height:320px; overflow:hidden; border:1px solid #ddd; }
+  .stage img { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .4s; }
+  .stage img.on { opacity:1; }
+  .dots { margin-top:18px; }
+  .dot { display:inline-block; width:12px; height:12px; border-radius:50%; background:#ccc; margin:0 6px; }
+  .dot.on { background:#ff5722; }
+  .note { margin-top:14px; color:#888; font-size:13px; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>图片轮播（每隔 2s 向右切换，到底后从头循环）</h2>
+  <div class="stage" id="stage">
+    <!-- 把三张素材图片替换为如下 img 标签，图片放同目录 -->
+    <img src="img1.jpg" class="on" alt="图1">
+    <img src="img2.jpg" alt="图2">
+    <img src="img3.jpg" alt="图3">
+  </div>
+  <div class="dots" id="dots"></div>
+  <div class="note">说明：将 img1.jpg / img2.jpg / img3.jpg 换成竞赛素材图片，
+      在 Axure 中实现可用“动态面板 + 循环间隔(2s) + 设置面板状态”复现此交互。</div>
+</div>
+<script>
+(function(){
+  var imgs = document.querySelectorAll('#stage img');
+  var dotsBox = document.getElementById('dots');
+  for (var i = 0; i < imgs.length; i++) {
+    var d = document.createElement('span');
+    d.className = 'dot' + (i === 0 ? ' on' : '');
+    dotsBox.appendChild(d);
+  }
+  var dots = dotsBox.children;
+  var cur = 0;
+  setInterval(function(){
+    imgs[cur].className = '';
+    dots[cur].className = 'dot';
+    cur = (cur + 1) % imgs.length;
+    imgs[cur].className = 'on';
+    dots[cur].className = 'dot on';
+  }, 2000);
+})();
+</script>
+</body>
+</html>

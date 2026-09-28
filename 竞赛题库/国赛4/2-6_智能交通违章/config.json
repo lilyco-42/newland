@@ -1,0 +1,14 @@
+{
+  "tcp": {
+    "host": "192.168.1.10",
+    "port": 8000
+  },
+  "red_light_seconds": 10,
+  "green_light_seconds": 10,
+  "plates": ["A81237", "A21456", "A36888"],
+  "camera": {
+    "enabled": false,
+    "snapshot_url": "http://192.168.1.100/snapshot.jpg"
+  },
+  "report_dir": "违章记录"
+}
