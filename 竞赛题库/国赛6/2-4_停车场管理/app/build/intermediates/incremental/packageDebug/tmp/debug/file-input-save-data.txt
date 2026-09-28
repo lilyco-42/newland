@@ -1,0 +1,11 @@
+#Internal package file, do not edit.
+#Tue Sep 22 15:16:26 CST 2026
+1.base=D\:\\竞赛资料\\GZ038 物联网应用开发赛项赛题\\6\\模块二\\2-4_停车场管理\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1
+0.baseType=DIRECTORY
+1.baseType=DIRECTORY
+count=2
+1.set=DEX
+0.path=classes.dex
+0.set=DEX
+0.base=D\:\\竞赛资料\\GZ038 物联网应用开发赛项赛题\\6\\模块二\\2-4_停车场管理\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+1.path=classes.dex

@@ -1,0 +1,168 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:2:1-26:12
+INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:2:1-26:12
+INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:2:1-26:12
+INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:2:1-26:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\af21ada993baac61ab3e8b732f083480\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\ed081c883fa85a3dc5c881b2490a4206\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\5ef7db9ba17997e943281057476ac345\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\4e201c97d22d5c2a14c9c8097041c296\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\4ed5eb8739afba3e5d36dc1a5911bae8\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\0752472647af7475335f3ba80d5e7d74\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\40e44881972d00b6058c9abbc226492f\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\42466172695525544adf5e592447eede\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\9bd44f35c42f814fadcc0e42889afb2e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\383c4edc53d48ae33fe049c1dc2a8330\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\af5e2ada338ae2c79c590561577f02b3\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\826e76e4b45043cc351f40edbd8b1633\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\f93462debef12d01194e0f6a9d7bb76b\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\c1dff389dc2c2bf1a942e66da3d3f37e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\d023c7fa3607f2370f5581565754e92e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\3906575ebe12c4abf900319459ae0de6\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\cb982a7da57d7da3949ebf1d72aa58f8\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\a502ac1467e08bb14fac7a850288036f\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\ef52470c82e920a4bd5c11e05fcd8b6c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\ac4bb5f7c310ec43a560a9148a78b3ac\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\163739f89e538ef11e4b791b67685a8c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\ec40533384d743ff96c6b4455c3f55ff\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\8adcf5dec57aa126fa91063de3bbaf21\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\e7448128aa7611b01f618e5422289b3c\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\ac9236e7198a68c23602beb8300bcf27\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\e46e031c5570ea5a44124f73851792af\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\8b3d35934d236ad9fc913b126aa511a1\AndroidManifest.xml:17:1-22:12
+INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:2:1-26:12
+INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:2:1-26:12
+INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:2:1-26:12
+	package
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:3:5-40
+		INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+		INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:2:1-26:12
+		INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:2:1-26:12
+		INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:5:5-67
+	android:name
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:5:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:6:5-79
+	android:name
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:6:22-76
+application
+ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:8:5-25:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\ed081c883fa85a3dc5c881b2490a4206\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\ed081c883fa85a3dc5c881b2490a4206\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\3906575ebe12c4abf900319459ae0de6\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\3906575ebe12c4abf900319459ae0de6\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\cb982a7da57d7da3949ebf1d72aa58f8\AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\cb982a7da57d7da3949ebf1d72aa58f8\AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\3906575ebe12c4abf900319459ae0de6\AndroidManifest.xml:22:18-91
+	android:supportsRtl
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:13:9-35
+	android:label
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:11:9-41
+	android:roundIcon
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:12:9-54
+	android:icon
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:10:9-43
+	android:allowBackup
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:9:9-35
+	android:theme
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:14:9-65
+	android:usesCleartextTraffic
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:15:9-44
+activity#com.nlecloud.cinemasystem.MainActivity
+ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:16:9-24:20
+	android:screenOrientation
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:19:13-50
+	android:exported
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:18:13-36
+	android:name
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:17:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:20:13-23:29
+action#android.intent.action.MAIN
+ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:21:17-69
+	android:name
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:21:25-66
+category#android.intent.category.LAUNCHER
+ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:22:17-77
+	android:name
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml:22:27-74
+uses-sdk
+INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\af21ada993baac61ab3e8b732f083480\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\af21ada993baac61ab3e8b732f083480\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\ed081c883fa85a3dc5c881b2490a4206\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\ed081c883fa85a3dc5c881b2490a4206\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\5ef7db9ba17997e943281057476ac345\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\5ef7db9ba17997e943281057476ac345\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\4e201c97d22d5c2a14c9c8097041c296\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0.aar\4e201c97d22d5c2a14c9c8097041c296\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\4ed5eb8739afba3e5d36dc1a5911bae8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0.aar\4ed5eb8739afba3e5d36dc1a5911bae8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\0752472647af7475335f3ba80d5e7d74\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0.aar\0752472647af7475335f3ba80d5e7d74\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\40e44881972d00b6058c9abbc226492f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0.aar\40e44881972d00b6058c9abbc226492f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\42466172695525544adf5e592447eede\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\loader-28.0.0.aar\42466172695525544adf5e592447eede\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\9bd44f35c42f814fadcc0e42889afb2e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0.aar\9bd44f35c42f814fadcc0e42889afb2e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\383c4edc53d48ae33fe049c1dc2a8330\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0.aar\383c4edc53d48ae33fe049c1dc2a8330\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\af5e2ada338ae2c79c590561577f02b3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0.aar\af5e2ada338ae2c79c590561577f02b3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\826e76e4b45043cc351f40edbd8b1633\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0.aar\826e76e4b45043cc351f40edbd8b1633\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\f93462debef12d01194e0f6a9d7bb76b\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\customview-28.0.0.aar\f93462debef12d01194e0f6a9d7bb76b\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\c1dff389dc2c2bf1a942e66da3d3f37e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0.aar\c1dff389dc2c2bf1a942e66da3d3f37e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\d023c7fa3607f2370f5581565754e92e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0.aar\d023c7fa3607f2370f5581565754e92e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\3906575ebe12c4abf900319459ae0de6\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\3906575ebe12c4abf900319459ae0de6\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\cb982a7da57d7da3949ebf1d72aa58f8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\cb982a7da57d7da3949ebf1d72aa58f8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\a502ac1467e08bb14fac7a850288036f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0.aar\a502ac1467e08bb14fac7a850288036f\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\ef52470c82e920a4bd5c11e05fcd8b6c\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\ef52470c82e920a4bd5c11e05fcd8b6c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\ac4bb5f7c310ec43a560a9148a78b3ac\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0.aar\ac4bb5f7c310ec43a560a9148a78b3ac\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\163739f89e538ef11e4b791b67685a8c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0.aar\163739f89e538ef11e4b791b67685a8c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\ec40533384d743ff96c6b4455c3f55ff\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\print-28.0.0.aar\ec40533384d743ff96c6b4455c3f55ff\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\8adcf5dec57aa126fa91063de3bbaf21\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\8adcf5dec57aa126fa91063de3bbaf21\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\e7448128aa7611b01f618e5422289b3c\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\e7448128aa7611b01f618e5422289b3c\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\ac9236e7198a68c23602beb8300bcf27\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\ac9236e7198a68c23602beb8300bcf27\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\e46e031c5570ea5a44124f73851792af\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\e46e031c5570ea5a44124f73851792af\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\8b3d35934d236ad9fc913b126aa511a1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Newland\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0.aar\8b3d35934d236ad9fc913b126aa511a1\AndroidManifest.xml:20:5-44
+INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+		INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+		ADDED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml
+		INJECTED from D:\竞赛资料\GZ038 物联网应用开发赛项赛题\3\模块二\2-4_智能电影院系统\app\src\main\AndroidManifest.xml

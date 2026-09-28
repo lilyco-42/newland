@@ -1,0 +1,7 @@
+#Tue Sep 22 15:25:01 CST 2026
+base.0=D\:\\竞赛资料\\GZ038 物联网应用开发赛项赛题\\7\\模块二\\2-5_环境监测系统\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1
+path.1=classes.dex
+renamed.1=classes2.dex
+path.0=classes.dex
+renamed.0=classes.dex
+base.1=D\:\\竞赛资料\\GZ038 物联网应用开发赛项赛题\\7\\模块二\\2-5_环境监测系统\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
