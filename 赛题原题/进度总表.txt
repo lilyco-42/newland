@@ -1,0 +1,70 @@
+锘縂Z038 鐗╄仈缃戝簲鐢ㄥ紑鍙戣禌椤硅禌棰? - 杩涘害鎬昏〃
+============================================
+鏈?缁堟洿鏂帮細Python exe + Android APK + Android婧愮爜 鍏ㄩ儴瀹屾垚
+
+== Python搴旂敤 (20涓猠xe) - 鍏ㄩ儴瀹屾垚 ==
+
+濂?1: 骞垮満姘旇薄绯荤粺.exe + 瀹㈠巺鐜?澧冪洃鎺х郴缁熷崌绾?.exe
+濂?2: 閽讳簳娣卞害鐩戞祴.exe + 闂ㄧ?佺郴缁?.exe
+濂?3: 杞﹀簱绠＄悊绯荤粺.exe + RFID鍞?绁ㄧ郴缁?.exe
+濂?4: 鏅鸿兘浜ら?氳繚绔犵郴缁?.exe + 澶у巺鐜?澧冪郴缁?.exe
+濂?5: 杩愯緭鏁版嵁鐩戞帶绯荤粺.exe + 鏅鸿兘鍟嗚秴绯荤粺.exe
+濂?6: 鐩戞帶绠＄悊绯荤粺.exe + 瀹㈠巺鐜?澧冪洃鎺х郴缁熷崌绾?.exe
+濂?7: 鐩戞帶绠＄悊绯荤粺.exe + 瀹㈠巺鐜?澧冪洃鎺х郴缁熷崌绾?.exe
+濂?8: 琛屼汉闂?绾㈢伅鐩戞帶绯荤粺.exe + 鏅鸿兘闂ㄧ?佺郴缁?.exe
+濂?9: 姘旇薄绯荤粺.exe + 闂ㄧ?佺郴缁?.exe
+濂?10: 闂ㄩ椄鐜?澧冪郴缁?.exe + 鍟嗗搧绠＄悊鍔熻兘.exe
+
+== Android APK (20涓?) - 鍏ㄩ儴缂栬瘧瀹屾垚 ==
+
+鐜?澧?: Android Studio 3.x + SDK API 28 + Gradle 4.6 + AGP 3.2.0
+鎶?鏈?: Java 1.8 + Support Library 28.0.0 + ConstraintLayout 1.1.3
+
+濂?1: 2-4_杩滅▼鐩戞帶.apk + 2-5_娓╁?ゅ煿鑲?.apk
+濂?2: 2-4_杩滅▼鐩戞帶.apk + 2-5_鏅鸿兘鐜?澧冪洃鎺?.apk
+濂?3: 2-4_鏅鸿兘鐢靛奖闄㈢郴缁?.apk + 2-5_鍘ㄦ埧涓?姘у寲纰虫??娴?.apk
+濂?4: 2-4_琛屼汉鐩戞帶绯荤粺.apk + 2-5_鍟嗗搧鏌ヨ?㈢郴缁?.apk
+濂?5: 2-4_杩滅▼鐩戞帶.apk + 2-5_妫?鏋楃伀鐏炬姤璀?.apk
+濂?6: 2-4_鍋滆溅鍦虹?＄悊.apk + 2-5_鐜?澧冪洃娴嬬郴缁?.apk
+濂?7: 2-4_浜戞湇鍔＄郴缁熷簲鐢?.apk + 2-5_鐜?澧冪洃娴嬬郴缁?.apk
+濂?8: 2-4_杩滅▼鐩戞帶.apk + 2-5_浣嶇疆瀹氫綅绯荤粺.apk
+濂?9: 2-4_璁惧?囨帶鍒?.apk + 2-5_瀹ゅ唴娓╂箍搴?.apk
+濂?10: 2-4_RGB鐏?甯﹁皟璇曞櫒.apk + 2-5_鐗╂枡鐩戞帶绯荤粺.apk
+
+== Android婧愮爜 (20涓?) - 鍏ㄩ儴瀹屾垚 ==
+
+姣忓??: MainActivity.java + activity_main.xml + build.gradle + AndroidManifest.xml + gradlew.bat
+浣嶇疆: {濂楀彿}\妯″潡浜孿2-{4,5}_*\
+
+== 鍏朵粬浜や粯鐗? ==
+
+- 鍘熷瀷璁捐??.rp + HTML鍘熷瀷 (D:\鎻愪氦璧勬枡\妯″潡浜孿)
+- 棰?4~棰?7 APK/Python/rar (D:\鎻愪氦璧勬枡\妯″潡浜孿)
+- Python SDK (D:\newland\src\newland\client.py) - 33涓狝PI鏂规硶
+
+== 寰呰禌鍦哄畬鎴? ==
+
+- 2-1 Axure鍘熷瀷璁捐?★紙闇?Axure杞?浠讹級
+- 2-2 ZigBee/CC2530宓屽叆寮忓紑鍙戯紙闇?IAR+纭?浠讹級
+- 2-3 LoRa/NB-IoT宓屽叆寮忓紑鍙戯紙闇?纭?浠讹級
+- 鎵?鏈堿-xx-x.jpg鎴?鍥撅紙闇?鐪熷疄纭?浠舵墽琛岋級
+
+
+== 摄像头接入 (2026-09-23) - 已完成 ==
+
+设备: TP-LINK TL-IPC43CA 6.0 @ 172.18.1.13 (端口 80/554/2020, admin/空密码)
+结论: 该机无 HTTP 流/抓图接口(全404), 视频走 RTSP, 云台走 ONVIF.
+
+Python库: D:\ipccam (与UI无关, 结构同 newland, README=完整接入文档)
+  - ipccam.onvif  : WS-Security PasswordDigest + Profiles/StreamUri/ContinuousMove
+  - ipccam.rtsp   : cv2 拉流 (stream2 H264 640x480 ~18fps)
+  - ipccam.camera : Camera 高层门面 (视频+云台+设备信息)
+
+已接入UI:
+  - 国赛7 参考 监控管理系统.py: RTSP真流+ONVIF云台, 真机验证画面/云台OK
+  - 套1/2/4/5/8 2-4 Android: VideoView播rtsp + Java版ONVIF, minSdk 26->21
+
+真机验证 (平板 AIS822-RK3288 Android 7.1.2 @ 172.18.1.14 ADB):
+  - adb install 套1 APK -> CAMERA ON 出实时画面 (相机OSD时间戳走动)
+  - PTZ LEFT -> 画面视角改变, 云台真实转动
+  - 套1/2 APK 已按 minSdk21 重建; 套4 构建中; 套5/8 待重建
