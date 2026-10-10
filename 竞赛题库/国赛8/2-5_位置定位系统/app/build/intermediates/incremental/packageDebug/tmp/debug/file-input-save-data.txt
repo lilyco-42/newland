@@ -1,11 +1,11 @@
 #Internal package file, do not edit.
 #Tue Sep 22 15:28:34 CST 2026
-1.base=D\:\\竞赛资料\\GZ038 物联网应用开发赛项赛题\\8\\模块二\\2-5_位置定位系统\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+1.base=D\:\\绔炶禌璧勬枡\\GZ038 鐗╄仈缃戝簲鐢ㄥ紑鍙戣禌椤硅禌棰榎\8\\妯″潡浜孿\2-5_浣嶇疆瀹氫綅绯荤粺\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
 0.baseType=DIRECTORY
 1.baseType=DIRECTORY
 count=2
 1.set=DEX
 0.path=classes.dex
 0.set=DEX
-0.base=D\:\\竞赛资料\\GZ038 物联网应用开发赛项赛题\\8\\模块二\\2-5_位置定位系统\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1
+0.base=D\:\\绔炶禌璧勬枡\\GZ038 鐗╄仈缃戝簲鐢ㄥ紑鍙戣禌椤硅禌棰榎\8\\妯″潡浜孿\2-5_浣嶇疆瀹氫綅绯荤粺\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1
 1.path=classes.dex

@@ -1,11 +1,11 @@
 #Internal package file, do not edit.
 #Mon Sep 21 19:01:57 CST 2026
-1.base=D\:\\竞赛资料\\GZ038 物联网应用开发赛项赛题\\2\\模块二\\2-5_智能环境监控\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1
+1.base=D\:\\绔炶禌璧勬枡\\GZ038 鐗╄仈缃戝簲鐢ㄥ紑鍙戣禌椤硅禌棰榎\2\\妯″潡浜孿\2-5_鏅鸿兘鐜鐩戞帶\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1
 0.baseType=DIRECTORY
 1.baseType=DIRECTORY
 count=2
 1.set=DEX
 0.path=classes.dex
 0.set=DEX
-0.base=D\:\\竞赛资料\\GZ038 物联网应用开发赛项赛题\\2\\模块二\\2-5_智能环境监控\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+0.base=D\:\\绔炶禌璧勬枡\\GZ038 鐗╄仈缃戝簲鐢ㄥ紑鍙戣禌椤硅禌棰榎\2\\妯″潡浜孿\2-5_鏅鸿兘鐜鐩戞帶\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
 1.path=classes.dex

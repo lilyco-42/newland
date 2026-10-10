@@ -1,6 +1,6 @@
 SELECT
-  table_name AS ±íÃû,
-  table_rows AS ¼ÇÂ¼Êı
+  table_name AS è¡¨å,
+  table_rows AS è®°å½•æ•°
 FROM
   information_schema.TABLES
 WHERE
