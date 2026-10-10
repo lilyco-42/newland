@@ -1,70 +1,70 @@
-﻿GZ038 物联网应用开发赛项赛�? - 进度总表
+﻿GZ038 物联网应用开发赛项赛题 - 进度总表
 ============================================
-�?终更新：Python exe + Android APK + Android源码 全部完成
+最终更新：Python exe + Android APK + Android源码 全部完成
 
 == Python应用 (20个exe) - 全部完成 ==
 
-�?1: 广场气象系统.exe + 客厅�?境监控系统升�?.exe
-�?2: 钻井深度监测.exe + 门�?�系�?.exe
-�?3: 车库管理系统.exe + RFID�?票系�?.exe
-�?4: 智能交�?�违章系�?.exe + 大厅�?境系�?.exe
-�?5: 运输数据监控系统.exe + 智能商超系统.exe
-�?6: 监控管理系统.exe + 客厅�?境监控系统升�?.exe
-�?7: 监控管理系统.exe + 客厅�?境监控系统升�?.exe
-�?8: 行人�?红灯监控系统.exe + 智能门�?�系�?.exe
-�?9: 气象系统.exe + 门�?�系�?.exe
-�?10: 门闸�?境系�?.exe + 商品管理功能.exe
+套1: 广场气象系统.exe + 客厅环境监控系统升级.exe
+套2: 钻井深度监测.exe + 门禁系统.exe
+套3: 车库管理系统.exe + RFID售票系统.exe
+套4: 智能交通违章系统.exe + 大厅环境系统.exe
+套5: 运输数据监控系统.exe + 智能商超系统.exe
+套6: 监控管理系统.exe + 客厅环境监控系统升级.exe
+套7: 监控管理系统.exe + 客厅环境监控系统升级.exe
+套8: 行人闯红灯监控系统.exe + 智能门禁系统.exe
+套9: 气象系统.exe + 门禁系统.exe
+套10: 门闸环境系统.exe + 商品管理功能.exe
 
-== Android APK (20�?) - 全部编译完成 ==
+== Android APK (20个) - 全部编译完成 ==
 
-�?�?: Android Studio 3.x + SDK API 28 + Gradle 4.6 + AGP 3.2.0
-�?�?: Java 1.8 + Support Library 28.0.0 + ConstraintLayout 1.1.3
+环境: Android Studio 3.x + SDK API 28 + Gradle 4.6 + AGP 3.2.0
+技术: Java 1.8 + Support Library 28.0.0 + ConstraintLayout 1.1.3
 
-�?1: 2-4_远程监控.apk + 2-5_温�?�培�?.apk
-�?2: 2-4_远程监控.apk + 2-5_智能�?境监�?.apk
-�?3: 2-4_智能电影院系�?.apk + 2-5_厨房�?氧化碳�??�?.apk
-�?4: 2-4_行人监控系统.apk + 2-5_商品查�?�系�?.apk
-�?5: 2-4_远程监控.apk + 2-5_�?林火灾报�?.apk
-�?6: 2-4_停车场�?�理.apk + 2-5_�?境监测系�?.apk
-�?7: 2-4_云服务系统应�?.apk + 2-5_�?境监测系�?.apk
-�?8: 2-4_远程监控.apk + 2-5_位置定位系统.apk
-�?9: 2-4_设�?�控�?.apk + 2-5_室内温湿�?.apk
-�?10: 2-4_RGB�?带调试器.apk + 2-5_物料监控系统.apk
+套1: 2-4_远程监控.apk + 2-5_温室培育.apk
+套2: 2-4_远程监控.apk + 2-5_智能环境监控.apk
+套3: 2-4_智能电影院系统.apk + 2-5_厨房一氧化碳检测.apk
+套4: 2-4_行人监控系统.apk + 2-5_商品查询系统.apk
+套5: 2-4_远程监控.apk + 2-5_森林火灾报警.apk
+套6: 2-4_停车场管理.apk + 2-5_环境监测系统.apk
+套7: 2-4_云服务系统应用.apk + 2-5_环境监测系统.apk
+套8: 2-4_远程监控.apk + 2-5_位置定位系统.apk
+套9: 2-4_设备控制.apk + 2-5_室内温湿度.apk
+套10: 2-4_RGB灯带调试器.apk + 2-5_物料监控系统.apk
 
-== Android源码 (20�?) - 全部完成 ==
+== Android源码 (20个) - 全部完成 ==
 
-每�??: MainActivity.java + activity_main.xml + build.gradle + AndroidManifest.xml + gradlew.bat
+每套: MainActivity.java + activity_main.xml + build.gradle + AndroidManifest.xml + gradlew.bat
 位置: {套号}\模块二\2-{4,5}_*\
 
-== 其他交付�? ==
+== 其他交付物 ==
 
-- 原型设�??.rp + HTML原型 (D:\提交资料\模块二\)
-- �?4~�?7 APK/Python/rar (D:\提交资料\模块二\)
+- 原型设计.rp + HTML原型 (D:\提交资料\模块二\)
+- 题4~题7 APK/Python/rar (D:\提交资料\模块二\)
 - Python SDK (D:\newland\src\newland\client.py) - 33个API方法
 
-== 待赛场完�? ==
+== 待赛场完成 ==
 
-- 2-1 Axure原型设�?�（�?Axure�?件）
-- 2-2 ZigBee/CC2530嵌入式开发（�?IAR+�?件）
-- 2-3 LoRa/NB-IoT嵌入式开发（�?�?件）
-- �?有A-xx-x.jpg�?图（�?真实�?件执行）
+- 2-1 Axure原型设计（需Axure软件）
+- 2-2 ZigBee/CC2530嵌入式开发（需IAR+硬件）
+- 2-3 LoRa/NB-IoT嵌入式开发（需硬件）
+- 所有A-xx-x.jpg成图（需真实硬件执行）
 
 
-== ����ͷ���� (2026-09-23) - ����� ==
+== 摄像头接入 (2026-09-23) - 已完成 ==
 
-�豸: TP-LINK TL-IPC43CA 6.0 @ 172.18.1.13 (�˿� 80/554/2020, admin/������)
-����: �û��� HTTP ��/ץͼ�ӿ�(ȫ404), ��Ƶ�� RTSP, ��̨�� ONVIF.
+设备: TP-LINK TL-IPC43CA 6.0 @ 172.18.1.13 (端口 80/554/2020, admin/空密码)
+结论: 该机无 HTTP 流/抓图接口(全404), 视频走 RTSP, 云台走 ONVIF.
 
-Python��: D:\ipccam (��UI�޹�, �ṹͬ newland, README=���������ĵ�)
+Python库: D:\ipccam (与UI无关, 结构同 newland, README=完整接入文档)
   - ipccam.onvif  : WS-Security PasswordDigest + Profiles/StreamUri/ContinuousMove
-  - ipccam.rtsp   : cv2 ���� (stream2 H264 640x480 ~18fps)
-  - ipccam.camera : Camera �߲����� (��Ƶ+��̨+�豸��Ϣ)
+  - ipccam.rtsp   : cv2 拉流 (stream2 H264 640x480 ~18fps)
+  - ipccam.camera : Camera 高层门面 (视频+云台+设备信息)
 
-�ѽ���UI:
-  - ����7 �ο� ��ع���ϵͳ.py: RTSP����+ONVIF��̨, �����֤����/��̨OK
-  - ��1/2/4/5/8 2-4 Android: VideoView��rtsp + Java��ONVIF, minSdk 26->21
+已接入UI:
+  - 国赛7 参考 监控管理系统.py: RTSP真流+ONVIF云台, 真机验证画面/云台OK
+  - 套1/2/4/5/8 2-4 Android: VideoView播rtsp + Java版ONVIF, minSdk 26->21
 
-�����֤ (ƽ�� AIS822-RK3288 Android 7.1.2 @ 172.18.1.14 ADB):
-  - adb install ��1 APK -> CAMERA ON ��ʵʱ���� (���OSDʱ����߶�)
-  - PTZ LEFT -> �����ӽǸı�, ��̨��ʵת��
-  - ��1/2 APK �Ѱ� minSdk21 �ؽ�; ��4 ������; ��5/8 ���ؽ�
+真机验证 (平板 AIS822-RK3288 Android 7.1.2 @ 172.18.1.14 ADB):
+  - adb install 套1 APK -> CAMERA ON 出实时画面 (相机OSD时间戳走动)
+  - PTZ LEFT -> 画面视角改变, 云台真实转动
+  - 套1/2 APK 已按 minSdk21 重建; 套4 构建中; 套5/8 待重建
